@@ -72,10 +72,18 @@ function Nav() {
   );
 }
 
-const people = [
+type Person = {
+  name: string;
+  role: string;
+  img?: string;
+  bio: React.ReactNode;
+};
+
+const people: Person[] = [
   {
     name: "Darren Yee",
     role: "Co-creator · NYU Entrepreneurial Institute",
+    img: "/darren-yee.jpg",
     bio: (
       <>
         Darren works with founders at the earliest, messiest stage — when an idea is still a hunch
@@ -158,9 +166,32 @@ function AboutPage() {
           <div className="mt-12 grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
             {people.map((p) => (
               <article key={p.name} className="bg-background p-8">
-                <h3 className="font-display text-2xl">{p.name}</h3>
-                <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {p.role}
+                <div className="flex items-center gap-4">
+                  {p.img ? (
+                    <img
+                      src={p.img}
+                      alt={p.name}
+                      className="h-16 w-16 rounded-sm object-cover"
+                      style={{ background: "var(--violet-tint)" }}
+                    />
+                  ) : (
+                    <div
+                      className="h-16 w-16 rounded-sm grid place-items-center font-display text-lg"
+                      style={{ background: "var(--violet-tint)", color: "var(--violet)" }}
+                      aria-hidden="true"
+                    >
+                      {p.name
+                        .split(" ")
+                        .map((w) => w[0])
+                        .join("")}
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="font-display text-2xl">{p.name}</h3>
+                    <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                      {p.role}
+                    </div>
+                  </div>
                 </div>
                 <p className="mt-5 text-[0.98rem] leading-relaxed text-ink">{p.bio}</p>
               </article>
