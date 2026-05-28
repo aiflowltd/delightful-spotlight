@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Ladder } from "@/components/Ladder";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
@@ -60,6 +60,7 @@ function Nav() {
           <a href="#framework" className="hover:text-foreground transition-colors">Framework</a>
           <a href="#drm" className="hover:text-foreground transition-colors">DRM</a>
           <a href="#origin" className="hover:text-foreground transition-colors">Where it comes from</a>
+          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
           <a
             href="#get"
             className="px-3 py-1.5 rounded-sm text-white text-sm"
@@ -107,7 +108,7 @@ function Hero() {
             </a>
           </div>
           <div className="mt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            By Darren Marble & Frank Rimalovski · NYU Entrepreneurial Institute
+            By Darren Yee & Frank Rimalovski · NYU Entrepreneurial Institute
           </div>
         </div>
 
@@ -545,7 +546,7 @@ function Footer() {
     <footer>
       <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
         <div>
-          Built by <span className="text-ink font-medium">Darren Marble</span> and{" "}
+          Built by <span className="text-ink font-medium">Darren Yee</span> and{" "}
           <span className="text-ink font-medium">Frank Rimalovski</span> at the NYU
           Entrepreneurial Institute.
         </div>
