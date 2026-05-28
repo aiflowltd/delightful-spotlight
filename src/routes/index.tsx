@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Ladder } from "@/components/Ladder";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
@@ -60,6 +60,7 @@ function Nav() {
           <a href="#framework" className="hover:text-foreground transition-colors">Framework</a>
           <a href="#drm" className="hover:text-foreground transition-colors">DRM</a>
           <a href="#origin" className="hover:text-foreground transition-colors">Where it comes from</a>
+          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
           <a
             href="#get"
             className="px-3 py-1.5 rounded-sm text-white text-sm"
