@@ -7,7 +7,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Who built the Discovery Ladder, and why — Darren Marble and Frank Rimalovski at the NYU Entrepreneurial Institute.",
+          "Who built the Discovery Ladder, and why — Darren Yee and Frank Rimalovski at the NYU Entrepreneurial Institute.",
       },
       { property: "og:title", content: "About — The Discovery Ladder" },
       {
@@ -74,7 +74,7 @@ function Nav() {
 
 const people = [
   {
-    name: "Darren Marble",
+    name: "Darren Yee",
     role: "Co-creator · NYU Entrepreneurial Institute",
     bio: (
       <>
@@ -193,7 +193,7 @@ function AboutPage() {
       <footer>
         <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
           <div>
-            Built by <span className="text-ink font-medium">Darren Marble</span> and{" "}
+            Built by <span className="text-ink font-medium">Darren Yee</span> and{" "}
             <span className="text-ink font-medium">Frank Rimalovski</span> at the NYU
             Entrepreneurial Institute.
           </div>

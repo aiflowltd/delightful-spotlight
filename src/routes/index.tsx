@@ -108,7 +108,7 @@ function Hero() {
             </a>
           </div>
           <div className="mt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            By Darren Marble & Frank Rimalovski · NYU Entrepreneurial Institute
+            By Darren Yee & Frank Rimalovski · NYU Entrepreneurial Institute
           </div>
         </div>
 
@@ -546,7 +546,7 @@ function Footer() {
     <footer>
       <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
         <div>
-          Built by <span className="text-ink font-medium">Darren Marble</span> and{" "}
+          Built by <span className="text-ink font-medium">Darren Yee</span> and{" "}
           <span className="text-ink font-medium">Frank Rimalovski</span> at the NYU
           Entrepreneurial Institute.
         </div>
