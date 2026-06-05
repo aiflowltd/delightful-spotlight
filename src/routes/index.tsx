@@ -500,14 +500,28 @@ function CTASection() {
               the Pain Scale, and the DRM, in one PDF.
             </p>
           </div>
-          <iframe
-            src="https://darrenyee.substack.com/embed?transparent=1"
-            width={480}
-            height={150}
-            style={{ border: 0, background: "transparent" }}
-            frameBorder={0}
-            scrolling="no"
-          />
+          <form
+            className="flex flex-col sm:flex-row gap-3 w-full"
+            action="https://darrenyee.substack.com/subscribe"
+            method="get"
+            target="_blank"
+          >
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="you@startup.com"
+              className="flex-1 px-4 py-3 rounded-sm bg-white text-ink placeholder:text-muted-foreground outline-none focus:ring-2"
+              style={{ ['--tw-ring-color' as never]: "var(--teal)" }}
+            />
+            <button
+              type="submit"
+              className="px-5 py-3 rounded-sm font-medium text-sm"
+              style={{ background: "var(--teal)", color: "#0a2229" }}
+            >
+              Subscribe
+            </button>
+          </form>
         </div>
 
         <div
