@@ -1,6 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
+type BlogSearch = { category?: string };
+
 export const Route = createFileRoute("/blog")({
+  validateSearch: (search: Record<string, unknown>): BlogSearch => {
+    return typeof search.category === "string" && search.category
+      ? { category: search.category }
+      : {};
+  },
   head: () => ({
     meta: [
       { title: "Blog — The Discovery Ladder" },
@@ -85,6 +92,23 @@ const posts: Post[] = [
     tag: "Essay",
     readingTime: "6 min read",
   },
+  {
+    title: "Running a Level 1 problem interview",
+    excerpt:
+      "A step-by-step playbook for the conversation that scores whether the pain is real — the questions to ask, the traps to avoid, and how to record it.",
+    url: SUBSTACK_URL,
+    date: "March 2026",
+    tag: "Playbook",
+    readingTime: "8 min read",
+  },
+];
+
+// The set of categories shown in the filter bar, derived from the posts above.
+// Add a `tag` to a post and it automatically appears here.
+const ALL_CATEGORY = "All";
+const categories = [
+  ALL_CATEGORY,
+  ...Array.from(new Set(posts.map((p) => p.tag).filter((t): t is string => Boolean(t)))),
 ];
 
 function Nav() {
@@ -149,6 +173,40 @@ function ArrowOut() {
   );
 }
 
+function FilterBar({ active, onSelect }: { active: string; onSelect: (category: string) => void }) {
+  return (
+    <div
+      className="flex flex-wrap items-center gap-2"
+      role="group"
+      aria-label="Filter posts by category"
+    >
+      {categories.map((category) => {
+        const isActive = category === active;
+        return (
+          <button
+            key={category}
+            type="button"
+            onClick={() => onSelect(category)}
+            aria-pressed={isActive}
+            className="px-3.5 py-1.5 rounded-sm text-sm font-medium border transition-colors"
+            style={
+              isActive
+                ? {
+                    background: "var(--violet)",
+                    color: "white",
+                    borderColor: "var(--violet)",
+                  }
+                : { borderColor: "var(--rule)", color: "var(--muted-foreground)" }
+            }
+          >
+            {category}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 function PostCard({ post }: { post: Post }) {
   return (
     <a
@@ -192,6 +250,22 @@ function PostCard({ post }: { post: Post }) {
 }
 
 function BlogPage() {
+  const { category } = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  // Fall back to "All" if the URL has an unknown category.
+  const activeCategory = category && categories.includes(category) ? category : ALL_CATEGORY;
+
+  const visiblePosts =
+    activeCategory === ALL_CATEGORY ? posts : posts.filter((p) => p.tag === activeCategory);
+
+  const handleSelect = (next: string) => {
+    navigate({
+      search: next === ALL_CATEGORY ? {} : { category: next },
+      replace: true,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -222,17 +296,27 @@ function BlogPage() {
 
       <section className="border-b" style={{ borderColor: "var(--rule)" }}>
         <div className="mx-auto max-w-6xl px-6 py-20">
-          {posts.length > 0 ? (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <FilterBar active={activeCategory} onSelect={handleSelect} />
+            <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              {visiblePosts.length} {visiblePosts.length === 1 ? "post" : "posts"}
+              {activeCategory !== ALL_CATEGORY ? ` in ${activeCategory}` : ""}
+            </div>
+          </div>
+
+          {visiblePosts.length > 0 ? (
             <div
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-px"
+              className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-px"
               style={{ background: "var(--rule)" }}
             >
-              {posts.map((post) => (
+              {visiblePosts.map((post) => (
                 <PostCard key={post.title} post={post} />
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground">No posts yet — check back soon.</p>
+            <p className="mt-10 text-muted-foreground">
+              No posts in {activeCategory} yet — check back soon.
+            </p>
           )}
         </div>
       </section>
