@@ -522,6 +522,15 @@ function CTASection() {
               Subscribe
             </button>
           </form>
+          <iframe
+            src="https://darrenyee.substack.com/embed?transparent=1"
+            width={480}
+            height={150}
+            style={{ border: 0, background: "transparent" }}
+            frameBorder={0}
+            scrolling="no"
+            className="mt-4 max-w-full"
+          />
         </div>
 
         <div
