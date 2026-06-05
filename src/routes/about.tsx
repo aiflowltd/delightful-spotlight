@@ -55,6 +55,9 @@ function Nav() {
           <Link to="/" className="hover:text-foreground transition-colors">
             Framework
           </Link>
+          <Link to="/blog" className="hover:text-foreground transition-colors">
+            Blog
+          </Link>
           <Link to="/about" className="text-foreground transition-colors">
             About
           </Link>

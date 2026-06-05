@@ -60,6 +60,7 @@ function Nav() {
           <a href="#framework" className="hover:text-foreground transition-colors">Framework</a>
           <a href="#drm" className="hover:text-foreground transition-colors">DRM</a>
           <a href="#origin" className="hover:text-foreground transition-colors">Where it comes from</a>
+          <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
           <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
           <a
             href="#get"
@@ -551,6 +552,7 @@ function Footer() {
           Entrepreneurial Institute.
         </div>
         <div className="flex gap-6">
+          <Link to="/blog" className="hover:text-foreground">Blog</Link>
           <a href="#" className="hover:text-foreground">Methodology brief</a>
           <a href="#" className="hover:text-foreground">EI program</a>
           <a href="#" className="hover:text-foreground">Contact</a>
