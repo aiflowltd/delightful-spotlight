@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { normalizeFrom } from "@/lib/form-helpers";
 
 // Waitlist signup from the homepage CTA ("A mirror for the discovery you're already doing").
 //
@@ -47,7 +48,7 @@ export const joinWaitlist = createServerFn({ method: "POST" })
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.LEAD_FROM_EMAIL || DEFAULT_FROM,
+        from: normalizeFrom(process.env.LEAD_FROM_EMAIL, DEFAULT_FROM),
         to,
         reply_to: data.email,
         subject: `Waitlist: ${data.email}`,
