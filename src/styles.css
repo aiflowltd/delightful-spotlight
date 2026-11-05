@@ -211,12 +211,42 @@
   stroke: var(--ink);
   stroke-width: 2.5;
 }
+.scroll-ladder .sl-x {
+  stroke: #e2552d;
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.scroll-ladder .sl-rung.broke .sl-bar {
+  fill: white;
+  stroke: #e2552d;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.scroll-ladder .sl-rung.broke .sl-x {
+  opacity: 1;
+}
+.scroll-ladder .sl-rung.broke .sl-label {
+  fill: #b8300f;
+}
+.scroll-ladder .sl-down {
+  fill: none;
+  stroke: #e2552d;
+  stroke-width: 2.5;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.scroll-ladder.desc .sl-down {
+  opacity: 1;
+}
 .scroll-ladder .sl-you {
   transition: transform 0.6s cubic-bezier(0.5, 0, 0.2, 1);
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll-ladder .sl-bar,
   .scroll-ladder .sl-label,
+  .scroll-ladder .sl-x,
+  .scroll-ladder .sl-down,
   .scroll-ladder .sl-you {
     transition: none;
   }

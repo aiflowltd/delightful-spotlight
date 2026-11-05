@@ -17,7 +17,7 @@ type Level = {
   color: string;
 };
 
-// Same palette as the hero ladder. Climbing order: L0 → L4. Index === data-step.
+// Same palette as the hero ladder. Climbing order: L0 → L4 (index === level number).
 const levels: Level[] = [
   {
     id: "l0",
@@ -111,13 +111,18 @@ const levels: Level[] = [
 const RUNG_Y: Record<number, number> = { 1: 392, 2: 296, 3: 200, 4: 104 };
 const GROUND_Y = 470;
 
-const STATUS = [
-  "Standing on the ground: your ICP",
-  "Level 1 · Problem",
-  "Level 2 · Jobs, carrying L1",
-  "Level 3 · Value, carrying L1 + L2",
-  "Level 4 · GTM, carrying L1–L3",
+type StepState = { you: number; carried: number[]; now: number; broke?: number; msg: string };
+
+/** One entry per block on the right, in scroll order (data-step). Step 4 is the descent. */
+const STEPS: StepState[] = [
+  { you: 0, carried: [], now: 0, msg: "Standing on the ground: your ICP" },
+  { you: 1, carried: [], now: 1, msg: "Level 1 · Problem" },
+  { you: 2, carried: [1], now: 2, msg: "Level 2 · Jobs, carrying L1" },
+  { you: 3, carried: [1, 2], now: 3, msg: "Level 3 · Value, carrying L1 + L2" },
+  { you: 2, carried: [1], now: 2, broke: 3, msg: "Descended to L2. That’s the win." },
+  { you: 4, carried: [1, 2, 3], now: 4, msg: "Level 4 · GTM, carrying L1–L3" },
 ];
+const DESCENT_STEP = 4;
 
 export function ScrollLadder() {
   const [step, setStep] = useState(0);
@@ -139,8 +144,9 @@ export function ScrollLadder() {
     return () => io.disconnect();
   }, []);
 
-  const goTo = (i: number) => {
-    const el = blocksRef.current?.querySelector<HTMLElement>(`[data-step="${i}"]`);
+  /** Scroll to a level's block (by level number, not step). */
+  const goTo = (level: number) => {
+    const el = document.getElementById(`level-${levels[level].id}`);
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
@@ -151,25 +157,27 @@ export function ScrollLadder() {
       <aside className="hidden min-[980px]:block self-start sticky top-[104px]">
         <LadderSvg step={step} onSelect={goTo} />
         <p className="mt-2 min-h-5 text-center font-mono text-[13px] font-medium text-muted-foreground" aria-live="polite">
-          {STATUS[step]}
+          {STEPS[step].msg}
         </p>
       </aside>
 
       <div ref={blocksRef} className="flex flex-col gap-5 min-[980px]:gap-7 min-[980px]:pb-[30vh]">
-        {levels.map((l, i) => (
-          <LevelBlock key={l.id} level={l} index={i} />
+        {levels.slice(0, 4).map((l, i) => (
+          <LevelBlock key={l.id} level={l} index={i} step={i} />
         ))}
+        <DescentBlock step={DESCENT_STEP} />
+        <LevelBlock level={levels[4]} index={4} step={5} />
       </div>
     </div>
   );
 }
 
-function LevelBlock({ level, index }: { level: Level; index: number }) {
+function LevelBlock({ level, index, step }: { level: Level; index: number; step: number }) {
   const chipText = index === 0 ? "var(--ink)" : "white";
   return (
     <article
       id={`level-${level.id}`}
-      data-step={index}
+      data-step={step}
       className="flex flex-col gap-5 bg-white p-6 sm:p-10 min-[980px]:min-h-[62vh] scroll-mt-28"
     >
       <div className="flex items-center gap-3 font-mono text-[13px] font-medium text-muted-foreground">
@@ -205,6 +213,46 @@ function LevelBlock({ level, index }: { level: Level; index: number }) {
   );
 }
 
+function DescentBlock({ step }: { step: number }) {
+  return (
+    <article
+      id="level-descent"
+      data-step={step}
+      className="flex flex-col gap-5 p-6 sm:p-10 text-white min-[980px]:min-h-[62vh] scroll-mt-28"
+      style={{ background: "var(--ink)" }}
+    >
+      <div className="flex items-center gap-3 font-mono text-[13px] font-medium" style={{ color: "#B9B6C6" }}>
+        <span
+          className="inline-grid h-6 min-w-7 place-items-center px-1.5 text-xs font-semibold text-white"
+          style={{ background: "#E2552D" }}
+        >
+          ↓
+        </span>
+        The descent
+      </div>
+      <h3 className="font-display text-[2.25rem] sm:text-[3.25rem] leading-none tracking-[-0.03em] text-white">
+        Treat the descent as the win.
+      </h3>
+      <figure className="p-4" style={{ background: "rgba(255,255,255,0.06)" }}>
+        <blockquote className="font-display text-[19px] leading-snug">
+          “Honestly the matching is fine. What kills me is chasing the clients for the
+          remittance slips.”
+        </blockquote>
+        <figcaption className="mt-1.5 font-mono text-[11px]" style={{ color: "#B9B6C6" }}>
+          Interview #031 · during an L3 experiment · contradicts the L2 wedge
+        </figcaption>
+      </figure>
+      <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed" style={{ color: "#CFCCDA" }}>
+        New evidence breaks an earlier level, so you step back down to Jobs and re-rank. Going
+        back because the evidence sent you there is the framework working.
+      </p>
+      <p className="mt-auto font-mono text-[13px] font-medium" style={{ color: "#FFB49A" }}>
+        You just saved a quarter of building the wrong thing.
+      </p>
+    </article>
+  );
+}
+
 function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => void }) {
   const onKey = (i: number) => (e: KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -212,13 +260,14 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
       onSelect(i);
     }
   };
-  const markerY = step === 0 ? GROUND_Y : RUNG_Y[step];
+  const st = STEPS[step];
+  const markerY = st.you === 0 ? GROUND_Y : RUNG_Y[st.you];
 
   return (
     <svg
       viewBox="0 0 420 520"
       width="380"
-      className="scroll-ladder block h-auto w-[380px] overflow-visible font-display"
+      className={`scroll-ladder block h-auto w-[380px] overflow-visible font-display${st.broke ? " desc" : ""}`}
       role="group"
       aria-label="Discovery Ladder progress"
     >
@@ -238,7 +287,14 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
       {[1, 2, 3, 4].map((i) => {
         const l = levels[i];
         const y = RUNG_Y[i];
-        const state = i < step ? "carried" : i === step ? "now" : "future";
+        const state =
+          i === st.broke
+            ? "broke"
+            : st.carried.includes(i)
+              ? "carried"
+              : i === st.now
+                ? "now"
+                : "future";
         return (
           <g
             key={l.id}
@@ -254,6 +310,7 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
             <rect x="0" y={y - 40} width="420" height="80" fill="transparent" />
             <rect className="sl-focus" x="132" y={y - 17} width="116" height="34" rx="4" />
             <rect className="sl-bar" x="140" y={y - 9} width="100" height="18" />
+            <path className="sl-x" d={`M170 ${y - 12} L210 ${y + 12} M210 ${y - 12} L170 ${y + 12}`} />
             <text x="126" y={y + 6} textAnchor="end" className="sl-label">
               {l.discover}
             </text>
@@ -271,7 +328,7 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
         role="button"
         tabIndex={0}
         aria-label="Level 0: Ideal Customer Profile"
-        aria-current={step === 0 ? "step" : undefined}
+        aria-current={st.now === 0 ? "step" : undefined}
         onClick={() => onSelect(0)}
         onKeyDown={onKey(0)}
       >
@@ -280,6 +337,9 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
           L0 · ICP
         </text>
       </g>
+
+      {/* Descent arrow: from L3 down to L2 */}
+      <path className="sl-down" d="M190 214 V276 M182 268 L190 278 L198 268" aria-hidden="true" />
 
       {/* "You" marker */}
       <g className="sl-you" style={{ transform: `translateY(${markerY}px)` }} aria-hidden="true">
