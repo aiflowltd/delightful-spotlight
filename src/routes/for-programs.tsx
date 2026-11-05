@@ -1,4 +1,5 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { EMAIL_HINT, friendlyError, isValidEmail } from "@/lib/form-helpers";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -38,9 +39,6 @@ export const Route = createFileRoute("/for-programs")({
 // ─────────────────────────────────────────────────────────────────────────────
 // EDIT CONTENT HERE
 // ─────────────────────────────────────────────────────────────────────────────
-
-// Where "Request a demo" goes. TODO: replace with a booking link or mailto.
-const DEMO_URL = "https://www.linkedin.com/in/darrenyeenyc";
 
 const problems = [
   {
@@ -114,24 +112,6 @@ const fullOverview = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-
-const UNLOCK_KEY = "dl-for-programs-unlocked";
-
-function readUnlocked() {
-  try {
-    return window.localStorage.getItem(UNLOCK_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-function saveUnlocked() {
-  try {
-    window.localStorage.setItem(UNLOCK_KEY, "1");
-  } catch {
-    // Storage unavailable (private mode, blocked): unlock for this visit only.
-  }
-}
 
 /** Illustrative weekly digest. Not real data. */
 function DigestPreview() {
@@ -235,13 +215,19 @@ function CohortPreview() {
   );
 }
 
-function LeadForm({ onUnlocked }: { onUnlocked: () => void }) {
-  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
+function LeadForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    if (!isValidEmail(String(form.get("email") ?? ""))) {
+      setEmailError(EMAIL_HINT);
+      return;
+    }
+    setEmailError("");
     setStatus("sending");
     setError("");
     try {
@@ -254,36 +240,59 @@ function LeadForm({ onUnlocked }: { onUnlocked: () => void }) {
           website: String(form.get("website") ?? ""),
         },
       });
-      saveUnlocked();
-      onUnlocked();
+      setStatus("sent");
     } catch (err) {
       setStatus("error");
-      // Only surface short, human-written messages; never raw server output.
-      const message = err instanceof Error ? err.message : "";
-      setError(
-        message && message.length < 160 && !message.includes("<")
-          ? message
-          : "Something went wrong. Please try again.",
-      );
+      setError(friendlyError(err));
     }
   }
 
   const field =
     "w-full rounded-sm border bg-background px-3 py-2.5 text-sm outline-none focus:border-[var(--violet)]";
 
+  if (status === "sent") {
+    return (
+      <div
+        className="bg-background border rounded-sm p-6 sm:p-8 shadow-sm w-full max-w-md"
+        style={{ borderColor: "var(--rule)" }}
+        role="status"
+      >
+        <h3 className="font-display text-2xl leading-snug">Thanks — we'll be in touch soon.</h3>
+      </div>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-background border rounded-sm p-6 sm:p-8 shadow-sm max-w-md w-full"
+      className="bg-background border rounded-sm p-6 sm:p-8 shadow-sm w-full max-w-md"
       style={{ borderColor: "var(--rule)" }}
     >
-      <h3 className="font-display text-2xl leading-snug">Get the full overview</h3>
+      <h3 className="font-display text-2xl leading-snug">Request a demo</h3>
       <p className="mt-2 text-sm text-muted-foreground">
-        How the cohort view works, what your coaches see, and how it fits application review.
+        Tell us about your program and we'll get back to you.
       </p>
       <div className="mt-6 space-y-3">
         <input name="name" required placeholder="Name" autoComplete="name" className={field} style={{ borderColor: "var(--rule)" }} />
-        <input name="email" type="email" required placeholder="Work email" autoComplete="email" className={field} style={{ borderColor: "var(--rule)" }} />
+        <div>
+          <input
+            name="email"
+            type="email"
+            required
+            placeholder="Work email"
+            autoComplete="email"
+            aria-invalid={emailError ? true : undefined}
+            aria-describedby={emailError ? "lead-email-error" : undefined}
+            onChange={() => emailError && setEmailError("")}
+            className={field}
+            style={{ borderColor: emailError ? "var(--red)" : "var(--rule)" }}
+          />
+          {emailError ? (
+            <p id="lead-email-error" className="mt-1.5 text-xs" style={{ color: "var(--red)" }}>
+              {emailError}
+            </p>
+          ) : null}
+        </div>
         <input name="organization" required placeholder="Program or institution" autoComplete="organization" className={field} style={{ borderColor: "var(--rule)" }} />
         <input name="role" placeholder="Your role (optional)" autoComplete="organization-title" className={field} style={{ borderColor: "var(--rule)" }} />
         <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
@@ -294,7 +303,7 @@ function LeadForm({ onUnlocked }: { onUnlocked: () => void }) {
         className="mt-5 w-full px-5 py-3 rounded-sm text-white text-sm font-medium disabled:opacity-60"
         style={{ background: "var(--violet)" }}
       >
-        {status === "sending" ? "Sending…" : "Show me the full overview"}
+        {status === "sending" ? "Sending…" : "Request a demo"}
       </button>
       {status === "error" ? (
         <p className="mt-3 text-sm" style={{ color: "var(--red)" }} role="alert">
@@ -306,15 +315,9 @@ function LeadForm({ onUnlocked }: { onUnlocked: () => void }) {
 }
 
 function ForProgramsPage() {
-  const [unlocked, setUnlocked] = useState(false);
-
-  useEffect(() => {
-    setUnlocked(readUnlocked());
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SiteNav cta={{ label: "Request a demo", href: DEMO_URL, external: true }} />
+      <SiteNav cta={{ label: "Request a demo", href: "#contact" }} />
 
       {/* Hero */}
       <section className="border-b" style={{ borderColor: "var(--rule)" }}>
@@ -330,24 +333,13 @@ function ForProgramsPage() {
             Ladder grades every one and sends you a weekly digest: how the cohort is performing,
             which teams are stuck, and where to step in.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-5 py-3 rounded-sm text-white text-sm font-medium"
-              style={{ background: "var(--violet)" }}
-            >
-              Request a demo
-            </a>
-            <a
-              href="#overview"
-              className="inline-flex items-center px-5 py-3 rounded-sm border text-sm font-medium"
-              style={{ borderColor: "var(--rule)" }}
-            >
-              Get the full overview
-            </a>
-          </div>
+          <a
+            href="#contact"
+            className="mt-8 inline-flex items-center px-5 py-3 rounded-sm text-white text-sm font-medium"
+            style={{ background: "var(--violet)" }}
+          >
+            Request a demo
+          </a>
         </div>
       </section>
 
@@ -423,53 +415,33 @@ function ForProgramsPage() {
         </div>
       </section>
 
-      {/* Gated: full overview */}
+      {/* Blurred preview with the demo form on top */}
       <section
-        id="overview"
+        id="contact"
         className="border-b"
         style={{ borderColor: "var(--rule)", background: "var(--violet-tint)" }}
       >
         <div className="mx-auto max-w-6xl px-6 py-16">
-          {unlocked ? (
-            <>
-              <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight max-w-3xl">
-                What your program gets.
-              </h2>
-              <div className="mt-10 grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-                {fullOverview.map((item) => (
-                  <article key={item.title} className="bg-background p-8">
-                    <h3 className="font-display text-2xl leading-snug">{item.title}</h3>
-                    <p className="mt-3 text-[0.98rem] leading-relaxed text-ink">{item.body}</p>
-                  </article>
+          <div className="relative">
+            <div className="pointer-events-none select-none blur-[6px] opacity-70" aria-hidden="true">
+              <CohortPreview />
+              <div className="mt-px grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
+                {fullOverview.slice(0, 2).map((item) => (
+                  <div key={item.title} className="bg-background p-8">
+                    <div className="font-display text-2xl">{item.title}</div>
+                    <p className="mt-3 text-[0.98rem]">{item.body}</p>
+                  </div>
                 ))}
               </div>
-              <div className="mt-10">
-                <CohortPreview />
-                <p className="mt-3 text-xs text-muted-foreground">Illustrative cohort view.</p>
-              </div>
-            </>
-          ) : (
-            <div className="relative">
-              <div className="pointer-events-none select-none blur-[6px] opacity-70" aria-hidden="true">
-                <CohortPreview />
-                <div className="mt-px grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-                  {fullOverview.slice(0, 2).map((item) => (
-                    <div key={item.title} className="bg-background p-8">
-                      <div className="font-display text-2xl">{item.title}</div>
-                      <p className="mt-3 text-[0.98rem]">{item.body}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="absolute inset-0 grid place-items-center p-4">
-                <LeadForm onUnlocked={() => setUnlocked(true)} />
-              </div>
             </div>
-          )}
+            <div className="absolute inset-0 grid place-items-center p-4">
+              <LeadForm />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Demo CTA */}
+      {/* Closing CTA */}
       <section style={{ background: "var(--violet)" }}>
         <div className="mx-auto max-w-6xl px-6 py-16 text-white">
           <h2
@@ -479,12 +451,11 @@ function ForProgramsPage() {
             Running a cohort this term?
           </h2>
           <p className="mt-5 max-w-xl text-lg opacity-85">
-            We'll walk you through the cohort view with your program's structure in mind.
+            We'll walk you through the weekly digest and cohort view with your program's
+            structure in mind.
           </p>
           <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
             className="mt-8 inline-flex items-center px-5 py-3 rounded-sm font-medium text-sm"
             style={{ background: "var(--teal)", color: "#0a2229" }}
           >

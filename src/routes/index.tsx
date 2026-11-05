@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
-import { Ladder } from "@/components/Ladder";
-import { LadderExplorer } from "@/components/LadderExplorer";
+import { HeroLadder } from "@/components/HeroLadder";
+import { CanonShelf } from "@/components/CanonShelf";
+import { DrmCards } from "@/components/DrmCards";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
+import { WaitlistForm } from "@/components/WaitlistForm";
+import { ScrollLadder } from "@/components/ScrollLadder";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,7 +37,7 @@ export const Route = createFileRoute("/")({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap",
       },
     ],
   }),
@@ -44,40 +47,46 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 grid lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
+      <div className="mx-auto max-w-6xl px-6 pt-16 pb-20 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-8 items-center">
         <div>
-          <h1 className="font-display text-[2.6rem] sm:text-6xl leading-[1.02] tracking-tight">
+          <h1 className="font-display font-semibold text-[2.6rem] sm:text-[3.6rem] lg:text-[4rem] leading-[1] tracking-[-0.04em] [text-wrap:balance]">
             The customer discovery framework for the{" "}
-            <span style={{ color: "var(--violet)" }}>age of AI</span>.
+            <span className="whitespace-nowrap">age of AI.</span>
           </h1>
-          <p className="mt-7 text-lg leading-relaxed text-muted-foreground max-w-xl">
-            A four-level framework that pairs every stage of customer evidence with a
-            build artifact — so founders never have to choose between doing discovery
-            and making progress.
+
+          <p className="mt-10 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
+            Building is cheap now. The expensive mistake is spending a year on something
+            nobody wants because you heard what you wanted to hear.{" "}
+            <span className="font-medium text-ink">
+              The Discovery Ladder gives discovery a sequence:
+            </span>{" "}
+            four levels, each testing a riskier assumption, each shipping a named artifact.
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#get"
-              className="inline-flex items-center px-5 py-3 rounded-sm text-white text-sm font-medium"
+              className="inline-flex items-center px-5 py-3 text-white text-base font-medium transition-opacity hover:opacity-90"
               style={{ background: "var(--violet)" }}
             >
               Get the framework →
             </a>
             <a
-              href="#sprint"
-              className="inline-flex items-center px-5 py-3 rounded-sm border text-sm font-medium"
-              style={{ borderColor: "var(--rule)" }}
+              href="#framework"
+              className="inline-flex items-center px-5 py-2.5 border-2 text-base font-medium text-ink transition-colors hover:bg-[var(--violet-tint)]"
+              style={{ borderColor: "var(--ink)" }}
             >
-              Apply to the Startup Sprint
+              Climb it ↓
             </a>
           </div>
-          <div className="mt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+
+          <div className="mt-8 font-mono text-xs text-muted-foreground">
             By Darren Yee · NYU Entrepreneurial Institute
           </div>
         </div>
 
-        <div className="lg:pl-8">
-          <Ladder />
+        <div>
+          <HeroLadder />
         </div>
       </div>
     </section>
@@ -102,23 +111,14 @@ function ProblemSection() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={<>The hard part of startups has moved.</>}
-        />
-        <div className="mt-12 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-start">
+        <SectionHeader title={<>The hard part of startups has moved.</>} />
+        <div className="mt-12 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-center">
           <div className="prose-editorial max-w-xl">
-            <p>
-              The customer discovery canon — Blank, Fitzpatrick, Constable, Christensen,
-              Torres — was built when building was expensive. Discovery was insurance
-              against burning six months on the wrong code. Talk to customers, the
-              canon said, <em>before</em> you build.
-            </p>
-            <p>AI broke that deal.</p>
             <p>
               Building a working prototype now takes a weekend. The deterrent is gone.
               Founders skip discovery, ship to nobody, get a few likes, and call it
-              iteration. The cost of being wrong has collapsed — and so has the
-              discipline that used to come with the cost.
+              iteration. The cost of being wrong has collapsed, and so has the discipline
+              that used to come with the cost.
             </p>
             <p>
               The hard part used to live between insight and build. Now it lives between
@@ -126,9 +126,34 @@ function ProblemSection() {
               the inputs to your judgment are real.
             </p>
           </div>
-          <div className="lg:pt-4">
-            <HardPartDiagram />
-          </div>
+          <HardPartDiagram />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HappyEarsSection() {
+  return (
+    <section className="border-b" style={{ borderColor: "var(--rule)" }}>
+      <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-start">
+        <h2 className="font-display font-semibold text-[2.75rem] sm:text-[4rem] leading-[0.95] tracking-[-0.04em] [text-wrap:balance]">
+          Happy ears waste years.
+        </h2>
+        <div className="prose-editorial max-w-xl lg:pt-2">
+          <p>
+            You did the interviews. People said they’d use it. You felt the momentum and you
+            built. Months later the product is live and the same people who were excited
+            aren’t opening it, and you can’t tell what went wrong.
+          </p>
+          <p>
+            Nobody lied to you. They were being nice, and you were hoping, and it’s nearly
+            impossible to tell those two apart in the moment.
+          </p>
+          <p className="font-medium">
+            And that’s the cost of discovery: not the time you spend talking to customers,
+            but the year you spend building on what you thought you heard.
+          </p>
         </div>
       </div>
     </section>
@@ -137,21 +162,37 @@ function ProblemSection() {
 
 function FrameworkSection() {
   return (
-    <section id="framework" className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={<>A ladder, not a checklist.</>}
-        />
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          Four levels, anchored by a foundational Level 0. Each level has a discovery
-          objective and a corresponding ship artifact. Each level earns the right to
-          ship the next.
-        </p>
-
-        <div className="mt-12">
-          <LadderExplorer />
-        </div>
-      </div>
+    <section id="framework" className="border-b overflow-x-clip" style={{ borderColor: "var(--rule)", background: "#F5F4F8" }}>
+      <ScrollLadder
+        header={
+          <>
+            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+              A ladder, not a checklist.
+            </h2>
+            <p className="mt-2 font-display text-xl sm:text-2xl leading-snug text-ink">
+              The shortest roadmap to validating your business.
+            </p>
+            <div className="mt-4 max-w-3xl space-y-3 text-base sm:text-[17px] text-muted-foreground leading-relaxed">
+              <p>
+                Each level tests a riskier assumption than the last, in the order that removes
+                risk fastest. You move up to the next level once you have enough evidence to
+                earn it.
+              </p>
+              <p>
+                As you climb, verified evidence gets logged in your{" "}
+                <a
+                  href="#drm"
+                  className="underline decoration-[var(--rule)] underline-offset-4 hover:text-ink"
+                >
+                  DRM
+                </a>
+                , so your AI tools build on what customers actually said and did. Scroll to
+                climb.
+              </p>
+            </div>
+          </>
+        }
+      />
     </section>
   );
 }
@@ -207,99 +248,51 @@ function StructuralIdeas() {
 function DRMSection() {
   return (
     <section id="drm" className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={
-            <>
-              Every modern company has a CRM. Every modern startup needs a{" "}
-              <span style={{ color: "var(--violet)" }}>DRM</span>.
-            </>
-          }
-        />
+      <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-12 items-center">
+        <div>
 
-        <div className="mt-12 grid lg:grid-cols-[1fr_1.1fr] gap-14 items-start">
-          <div className="prose-editorial max-w-xl">
-            <p>
-              The Discovery Ladder is only as auditable as the evidence behind it. The
-              DRM is where that evidence lives. Verbatim quotes, not summaries.
-              Behavior, not interpretation. Pain Scale classifications. Disqualification
-              patterns. ICP tags.
-            </p>
-            <p>
-              Without a DRM, level claims are founder narration. With one, they're
-              evidence.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-            <div className="bg-background p-6">
-              <div className="chip" style={{ color: "var(--teal)" }}>
-                <span className="chip-dot" /> What goes in
-              </div>
-              <ul className="mt-4 space-y-2 text-[0.95rem] text-ink">
-                <li>· Verbatim customer quotes</li>
-                <li>· Observed behaviors, not opinions</li>
-                <li>· Pain Scale scoring per interview</li>
-                <li>· ICP tags & disqualification notes</li>
-                <li>· Source, date, channel of contact</li>
-              </ul>
-            </div>
-            <div className="bg-background p-6">
-              <div className="chip" style={{ color: "var(--violet)" }}>
-                <span className="chip-dot" /> What comes out
-              </div>
-              <ul className="mt-4 space-y-2 text-[0.95rem] text-ink">
-                <li>· Defensible Level claims</li>
-                <li>· A sharper ICP, week by week</li>
-                <li>· Patterns instead of anecdotes</li>
-                <li>· Evidence your investors can audit</li>
-                <li>· A team memory that survives turnover</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function WhoFor() {
-  return (
-    <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
-            Built for founders already in motion.
+          <h2 className="font-display text-[2.5rem] sm:text-[3.25rem] leading-[1.02] tracking-[-0.03em]">
+            Every company has a CRM. Every startup needs a DRM.
           </h2>
-          <div className="prose-editorial mt-8 max-w-2xl">
-            <p>The Discovery Ladder isn't a tutorial. It's a mirror.</p>
-            <p>
-              If you've already done customer discovery — talked to humans, run
-              interviews, maybe even shipped something — and you're not sure whether
-              what you've learned is enough to keep building, the Ladder is calibrated
-              for you. It tells you which rung you're actually on, what evidence you're
-              missing, and what you need before the next build.
-            </p>
-            <p>
-              If you're stuck, the Ladder lets you descend — find the missing rung,
-              fill the gap, and climb back up. Most teams don't need to start over.
-              They need to find the level they skipped.
-            </p>
+
+          <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
+            The Discovery Records Manager is a ledger of evidence that grows with your business. Two rules: quotes, not summaries,
+            and behavior, not interpretation. Without it, every level claim is founder
+            narration.
+          </p>
+
+          <div className="mt-10 grid sm:grid-cols-3 border-2" style={{ borderColor: "var(--ink)" }}>
+            {[
+              ["Tracks", "Evidence", "Verbatim quotes, observed behavior, pain scores."],
+              ["Helps", "AI", "Reads transcripts, applies the rubrics, surfaces candidates."],
+              ["Decides", "You", "AI can tell you what you talked about. You decide what it means."],
+            ].map(([kicker, title, body], i) => {
+              const dark = i === 2;
+              return (
+                <div
+                  key={title}
+                  className={`p-5 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                  style={{
+                    borderColor: "var(--rule)",
+                    background: dark ? "var(--ink)" : undefined,
+                  }}
+                >
+                  <div className={`font-mono text-xs ${dark ? "text-white/70" : "text-muted-foreground"}`}>
+                    {kicker}
+                  </div>
+                  <div className={`mt-2 font-display text-2xl ${dark ? "text-white" : "text-ink"}`}>
+                    {title}
+                  </div>
+                  <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-white/80" : "text-muted-foreground"}`}>
+                    {body}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        <figure
-          className="mt-14 border-l-4 pl-6 max-w-3xl"
-          style={{ borderColor: "var(--violet)" }}
-        >
-          <blockquote className="font-display text-2xl sm:text-3xl leading-snug text-ink">
-            "Discovery and building are the same activity at different fidelities. Each
-            level earns the right to ship the next."
-          </blockquote>
-          <figcaption className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-            From the L3 methodology brief
-          </figcaption>
-        </figure>
+        <DrmCards />
       </div>
     </section>
   );
@@ -310,47 +303,38 @@ function Origin() {
     <section id="origin" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          title={<>Built on the canon, calibrated for the new bottleneck.</>}
+          title={<>Built on the canon, delivered just in time.</>}
         />
-        <div className="mt-10 grid lg:grid-cols-[1.1fr_1fr] gap-14">
-          <div className="prose-editorial max-w-xl">
-            <p>
-              The Discovery Ladder is a synthesis, not an invention. L1 builds on{" "}
-              <em>Talking to Humans</em> (Constable & Rimalovski) and{" "}
-              <em>The Mom Test</em> (Fitzpatrick). L2 builds on Christensen's Jobs to
-              Be Done and Torres's continuous discovery. L3 is the spine of{" "}
-              <em>Testing with Humans</em> (Constable). L4 borrows from Blank's
-              customer development.
-            </p>
-            <p>
-              What's new is the structure — pairing each level with a build artifact,
-              making the rungs additive, and calibrating the framework around AI-era
-              founder judgment as the scarce resource.
-            </p>
-            <p>
-              Built and taught at the <strong>NYU Entrepreneurial Institute</strong>,
-              in active development with the Startup Sprint cohort.
-            </p>
-          </div>
-          <ul className="space-y-3 text-sm">
-            {[
-              ["Talking to Humans", "Constable & Rimalovski"],
-              ["The Mom Test", "Fitzpatrick"],
-              ["Testing with Humans", "Constable"],
-              ["Jobs to Be Done", "Christensen"],
-              ["Continuous Discovery", "Torres"],
-              ["Four Steps to the Epiphany", "Blank"],
-            ].map(([t, a]) => (
-              <li
-                key={t}
-                className="flex items-baseline justify-between border-b py-3"
-                style={{ borderColor: "var(--rule)" }}
-              >
-                <span className="font-display text-lg">{t}</span>
-                <span className="text-muted-foreground">{a}</span>
-              </li>
-            ))}
-          </ul>
+        <div className="mt-14">
+          <CanonShelf
+            caption={
+              <div>
+                <ul className="space-y-3.5">
+                  {[
+                    ["L3", "Value", "Constable & Rimalovski, Blank & Dorf, Ries, Osterwalder", "var(--teal)", "var(--ink)"],
+                    ["L2", "Jobs", "Christensen", "var(--amber)", "var(--ink)"],
+                    ["L1", "Problem", "Blank, Fitzpatrick, Constable & Rimalovski", "var(--red)", "white"],
+                  ].map(([level, name, sources, bg, fg]) => (
+                    <li key={level} className="flex items-baseline gap-3">
+                      <span
+                        className="inline-grid h-6 min-w-7 shrink-0 place-items-center px-1.5 font-mono text-xs font-semibold translate-y-[-1px]"
+                        style={{ background: bg, color: fg }}
+                      >
+                        {level}
+                      </span>
+                      <span className="text-base sm:text-lg leading-snug">
+                        <span className="font-display font-medium text-ink">{name}</span>
+                        <span className="text-muted-foreground">: {sources}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 text-base sm:text-lg text-muted-foreground">
+                  The ladder puts them in sequence.
+                </p>
+              </div>
+            }
+          />
         </div>
       </div>
     </section>
@@ -370,39 +354,11 @@ function CTASection() {
               A mirror for the discovery you're already doing.
             </h2>
             <p className="mt-5 max-w-xl text-lg opacity-85">
-              Get Darren's essays on the framework — the four levels, the Pain Scale,
-              and the DRM — in your inbox as they're published.
+              Be first to try the Discovery Ladder and the DRM. Join the waitlist and
+              we'll let you know as soon as it opens.
             </p>
           </div>
-          {/* Opens Substack's signup page with the email pre-filled; the visitor confirms there. */}
-          <form
-            action="https://darrenyee.substack.com/subscribe"
-            method="get"
-            target="_blank"
-            className="w-full max-w-md"
-          >
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label htmlFor="subscribe-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="subscribe-email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder="you@startup.com"
-                className="flex-1 min-w-0 rounded-sm bg-white px-4 py-3 text-sm text-[#1a1a1a] placeholder:text-[#8a8a8a] outline-none focus:ring-2 focus:ring-[var(--teal)]"
-              />
-              <button
-                type="submit"
-                className="rounded-sm px-5 py-3 text-sm font-medium transition hover:brightness-95"
-                style={{ background: "var(--teal)", color: "#0a2229" }}
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
+          <WaitlistForm />
         </div>
       </div>
     </section>
@@ -418,9 +374,7 @@ function Footer() {
         </div>
         <div className="flex flex-wrap items-center gap-6">
           <Link to="/blog" className="hover:text-foreground">Blog</Link>
-          <a href="#" className="hover:text-foreground">Methodology brief</a>
-          <a href="#" className="hover:text-foreground">EI program</a>
-          <a href="#" className="hover:text-foreground">Contact</a>
+          <Link to="/about" className="hover:text-foreground">About</Link>
           <span className="hidden sm:block h-4 w-px" style={{ background: "var(--rule)" }} />
           <SocialLinks />
         </div>
@@ -435,10 +389,10 @@ function LandingPage() {
       <SiteNav />
       <Hero />
       <ProblemSection />
+      <HappyEarsSection />
       <FrameworkSection />
       <StructuralIdeas />
       <DRMSection />
-      <WhoFor />
       <Origin />
       <CTASection />
       <Footer />

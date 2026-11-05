@@ -75,13 +75,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "The Discovery Ladder" },
       {
         name: "description",
-        content: "The customer discovery framework for the age of AI.",
+        content: "The customer discovery framework for the age of AI",
       },
       { name: "author", content: "Darren Yee" },
       { property: "og:title", content: "The Discovery Ladder" },
       {
         property: "og:description",
-        content: "The customer discovery framework for the age of AI.",
+        content: "The customer discovery framework for the age of AI",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

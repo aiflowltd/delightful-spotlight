@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { WaitlistForm } from "@/components/WaitlistForm";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/about")({
       {
         property: "og:description",
         content:
-          "The people and the thinking behind a customer discovery framework for the age of AI.",
+          "The people and the thinking behind a customer discovery framework for the age of AI",
       },
       { property: "og:type", content: "website" },
     ],
@@ -45,7 +46,7 @@ type Person = {
 const people: Person[] = [
   {
     name: "Darren Yee",
-    role: "Creator · NYU Entrepreneurial Institute",
+    role: "Early Stage VC at NYU | Founder and 3x Operator | Accelerators and Courses",
     img: "/darren-yee.jpg",
     bio: (
       <>
@@ -55,46 +56,6 @@ const people: Person[] = [
         framework to give founders a way to tell real customer signal from their own optimism.
       </>
     ),
-  },
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-// INSTITUTE & PROGRAMS — placeholder content, replace the [bracketed] text.
-// ─────────────────────────────────────────────────────────────────────────────
-
-const institute = {
-  heading: "Where the Ladder gets tested.",
-  intro: [
-    "[One paragraph on the NYU Entrepreneurial Institute: who it serves, what it does, how long it has been running.]",
-    "[One paragraph on how the Discovery Ladder is used across the Institute's programs, and what you have seen it change for founders.]",
-  ],
-};
-
-type Stat = { value: string; label: string };
-
-const stats: Stat[] = [
-  { value: "[00]", label: "[teams through the programs]" },
-  { value: "[00]", label: "[interviews logged in the DRM]" },
-  { value: "[00]", label: "[cohorts run on the Ladder]" },
-];
-
-type Program = { name: string; stage: string; description: string };
-
-const programs: Program[] = [
-  {
-    name: "Bootcamp",
-    stage: "[Stage, e.g. idea → first interviews]",
-    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
-  },
-  {
-    name: "Startup Sprint",
-    stage: "[Stage]",
-    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
-  },
-  {
-    name: "Summer Launchpad",
-    stage: "[Stage]",
-    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
   },
 ];
 
@@ -113,71 +74,6 @@ function AboutPage() {
             moment when the hard part of startups has moved from building to knowing what's worth
             building.
           </p>
-        </div>
-      </section>
-
-      <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
-              Judgment is the scarce resource now.
-            </h2>
-            <div className="prose-editorial mt-8 max-w-2xl">
-              <p>
-                The customer discovery canon was written when building was expensive. Discovery was
-                insurance against burning months on the wrong code. AI broke that deal — a working
-                prototype now takes a weekend, and the deterrent that used to enforce discipline is
-                gone.
-              </p>
-              <p>
-                We kept meeting founders who had shipped something real to nobody in particular,
-                collected a few likes, and called it iteration. The Discovery Ladder is our answer:
-                a framework that pairs every stage of customer evidence with a build artifact, so
-                doing discovery and making progress are the same act.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
-              {institute.heading}
-            </h2>
-            <div className="prose-editorial mt-8 max-w-2xl">
-              {institute.intro.map((para) => (
-                <p key={para}>{para}</p>
-              ))}
-            </div>
-          </div>
-
-          <dl className="mt-12 grid sm:grid-cols-3 gap-px" style={{ background: "var(--rule)" }}>
-            {stats.map((stat) => (
-              <div key={stat.label} className="bg-background p-6">
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="font-display text-4xl" style={{ color: "var(--violet)" }}>
-                  {stat.value}
-                </dd>
-                <dd className="mt-2 text-sm text-muted-foreground">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="mt-px grid md:grid-cols-3 gap-px" style={{ background: "var(--rule)" }}>
-            {programs.map((program) => (
-              <article key={program.name} className="bg-background p-6">
-                <h3 className="font-display text-2xl">{program.name}</h3>
-                <div className="mt-1 text-sm" style={{ color: "var(--violet)" }}>
-                  {program.stage}
-                </div>
-                <p className="mt-4 text-[0.98rem] leading-relaxed text-ink">
-                  {program.description}
-                </p>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -211,7 +107,7 @@ function AboutPage() {
                   )}
                   <div>
                     <h3 className="font-display text-2xl">{p.name}</h3>
-                    <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    <div className="mt-1 text-sm text-muted-foreground sm:whitespace-nowrap">
                       {p.role}
                     </div>
                   </div>
@@ -224,23 +120,19 @@ function AboutPage() {
       </section>
 
       <section style={{ background: "var(--violet)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-20 text-white">
-          <h2
-            className="font-display text-3xl sm:text-4xl leading-[1.05] tracking-tight max-w-2xl"
-            style={{ color: "white" }}
-          >
-            Want to see the framework?
-          </h2>
-          <p className="mt-5 max-w-xl text-lg opacity-85">
-            Start with the four levels and the ship artifacts on the home page.
-          </p>
-          <Link
-            to="/"
-            className="mt-8 inline-flex items-center px-5 py-3 rounded-sm font-medium text-sm"
-            style={{ background: "var(--teal)", color: "#0a2229" }}
-          >
-            Explore the Discovery Ladder →
-          </Link>
+        <div className="mx-auto max-w-6xl px-6 py-20 text-white grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-14 items-end">
+          <div>
+            <h2
+              className="font-display text-3xl sm:text-4xl leading-[1.05] tracking-tight max-w-2xl"
+              style={{ color: "white" }}
+            >
+              Be first to try it.
+            </h2>
+            <p className="mt-5 max-w-xl text-lg opacity-85">
+              Join the waitlist for early access to the Discovery Ladder and the DRM.
+            </p>
+          </div>
+          <WaitlistForm />
         </div>
       </section>
 

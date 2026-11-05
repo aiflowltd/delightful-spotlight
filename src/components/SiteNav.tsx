@@ -46,7 +46,7 @@ export function SiteNav({ cta = DEFAULT_CTA }: { cta?: Cta }) {
               key={l.to}
               to={l.to}
               className={
-                pathname === l.to
+                pathname === l.to || pathname.startsWith(`${l.to}/`)
                   ? "text-foreground transition-colors"
                   : "hover:text-foreground transition-colors"
               }
