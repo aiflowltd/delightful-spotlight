@@ -212,14 +212,14 @@
   stroke-width: 2.5;
 }
 .scroll-ladder .sl-x {
-  stroke: #e2552d;
+  stroke: var(--red);
   stroke-width: 3;
   opacity: 0;
   transition: opacity 0.3s;
 }
 .scroll-ladder .sl-rung.broke .sl-bar {
   fill: white;
-  stroke: #e2552d;
+  stroke: var(--red);
   stroke-width: 1.5;
   stroke-dasharray: 4 3;
 }
@@ -227,11 +227,11 @@
   opacity: 1;
 }
 .scroll-ladder .sl-rung.broke .sl-label {
-  fill: #b8300f;
+  fill: #a3174a;
 }
 .scroll-ladder .sl-down {
   fill: none;
-  stroke: #e2552d;
+  stroke: var(--red);
   stroke-width: 2.5;
   opacity: 0;
   transition: opacity 0.3s;
