@@ -293,11 +293,11 @@ function WhoFor() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
-            Built for founders already in motion.
-          </h2>
-          <div className="prose-editorial mt-8 max-w-2xl">
+        <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+          Built for founders already in motion.
+        </h2>
+        <div className="mt-8 grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+          <div className="prose-editorial max-w-2xl">
             <p>The Discovery Ladder isn't a tutorial. It's a mirror.</p>
             <p>
               If you've already done customer discovery — talked to humans, run
@@ -312,20 +312,17 @@ function WhoFor() {
               They need to find the level they skipped.
             </p>
           </div>
-        </div>
 
-        <figure
-          className="mt-14 border-l-4 pl-6 max-w-3xl"
-          style={{ borderColor: "var(--violet)" }}
-        >
-          <blockquote className="font-display text-2xl sm:text-3xl leading-snug text-ink">
-            "Discovery and building are the same activity at different fidelities. Each
-            level earns the right to ship the next."
-          </blockquote>
-          <figcaption className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-            From the L3 methodology brief
-          </figcaption>
-        </figure>
+          <figure className="border-l-4 pl-6" style={{ borderColor: "var(--violet)" }}>
+            <blockquote className="font-display text-2xl sm:text-3xl leading-snug text-ink">
+              "Discovery and building are the same activity at different fidelities.
+              Each level earns the right to ship the next."
+            </blockquote>
+            <figcaption className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+              From the L3 methodology brief
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   );
