@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
+import { discoveryLadderArticle as article } from "@/content/discovery-ladder-article";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "Blog — The Discovery Ladder" },
@@ -40,18 +41,6 @@ export const Route = createFileRoute("/blog")({
 
 const SUBSTACK_URL = "https://darrenyee.substack.com/";
 
-const article = {
-  title: "The Discovery Ladder",
-  subtitle: "How to talk to customers in the age of AI",
-  excerpt:
-    "Building used to be the hard part. It isn't anymore. The expensive mistake has moved: it is no longer writing the wrong code, it is spending a year building something nobody wants because you heard what you wanted to hear.",
-  url: "https://darrenyee.substack.com/p/the-discovery-ladder",
-  author: "Darren Yee",
-  date: "June 15, 2026",
-  readingTime: "25 min read",
-  levels: ["Problem Discovery", "Jobs Discovery", "Value Discovery", "GTM Discovery"],
-};
-
 function ArrowOut() {
   return (
     <svg
@@ -74,10 +63,8 @@ function ArrowOut() {
 
 function FeaturedArticle() {
   return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      to="/blog/the-discovery-ladder"
       className="group grid md:grid-cols-[2fr_3fr] border rounded-sm overflow-hidden transition-colors hover:bg-[var(--violet-tint)]"
       style={{ borderColor: "var(--rule)" }}
     >
@@ -123,11 +110,11 @@ function FeaturedArticle() {
             className="font-medium inline-flex items-center gap-1.5"
             style={{ color: "var(--violet)" }}
           >
-            Read on Substack <ArrowOut />
+            Read the essay →
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
@@ -177,9 +164,7 @@ function BlogPage() {
 
       <footer>
         <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
-          <div>
-            © {new Date().getFullYear()} The Discovery Ladder. All rights reserved.
-          </div>
+          <div>© {new Date().getFullYear()} The Discovery Ladder. All rights reserved.</div>
           <div className="flex flex-wrap items-center gap-6">
             <Link to="/" className="hover:text-foreground">
               Home

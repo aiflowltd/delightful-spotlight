@@ -1,10 +1,5 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { MASCOT_FEET_Y, MASCOT_SEAT_Y, MASCOT_W, MascotShape } from "@/components/Mascot";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode, type RefObject } from "react";
 
-const MASCOT_SCALE = 0.72;
-
-/** Mascot's centre x per step: ground, L1 middle, L2 left, L3 right, descent (L2 left), L4 middle. */
-const SEAT_X = [190, 190, 166, 214, 166, 190];
 
 // "A ladder, not a checklist": a sticky ladder (desktop) that tracks which level block
 // is in the middle of the viewport. One IntersectionObserver, state changes only on step
@@ -128,6 +123,12 @@ const STEPS: StepState[] = [
 ];
 const DESCENT_STEP = 4;
 
+/** Where the "you" marker rests for a step: on the ground line or on the current rung. */
+function seatFor(step: number) {
+  const you = STEPS[step].you;
+  return { x: 0, y: you === 0 ? GROUND_Y : RUNG_Y[you] };
+}
+
 /** Scroll distance per step while the section is pinned (desktop). */
 const STEP_VH = 55;
 const STEP_COUNT = STEPS.length; // 6: L0, L1, L2, L3, descent, L4
@@ -157,6 +158,47 @@ export function ScrollLadder({ header }: { header: ReactNode }) {
     sentinels.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+
+  // Continuous climb (desktop, motion allowed): the "you" marker follows scroll position,
+  // resting on each step's seat and gliding to the next one in the middle of the scroll.
+  const youRef = useRef<SVGGElement>(null);
+  const [continuous, setContinuous] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setContinuous(true);
+  }, []);
+
+  useEffect(() => {
+    const outer = outerRef.current;
+    if (!continuous || !outer) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const you = youRef.current;
+      if (!you) return;
+      const stepH = (window.innerHeight * STEP_VH) / 100;
+      const middle = window.innerHeight / 2 - outer.getBoundingClientRect().top;
+      const pos = Math.min(STEP_COUNT - 1, Math.max(0, middle / stepH - 0.5));
+      const i = Math.min(Math.floor(pos), STEP_COUNT - 2);
+      const raw = Math.min(1, Math.max(0, (pos - i - 0.3) / 0.4)); // rest, glide, rest
+      const t = raw * raw * (3 - 2 * raw);
+      const a = seatFor(i);
+      const b = seatFor(i + 1);
+      you.style.transform = `translate(${a.x + (b.x - a.x) * t}px, ${a.y + (b.y - a.y) * t}px)`;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [continuous]);
 
   /** Rung click: scroll the page so that level's step is active. */
   const goTo = (level: number) => {
@@ -199,7 +241,12 @@ export function ScrollLadder({ header }: { header: ReactNode }) {
 
         <div className="mt-10 min-[980px]:mt-8 min-[980px]:grid min-[980px]:grid-cols-[auto_1fr] min-[980px]:gap-14 min-[980px]:items-center">
           <aside className="hidden min-[980px]:block">
-            <LadderSvg step={step} onSelect={goTo} />
+            <LadderSvg
+              step={step}
+              onSelect={goTo}
+              youRef={youRef}
+              continuous={continuous}
+            />
             <p
               className="mt-1 min-h-5 text-center font-mono text-[13px] font-medium text-muted-foreground"
               aria-live="polite"
@@ -294,7 +341,7 @@ function DescentBlock({ step }: { step: number }) {
           remittance slips.”
         </blockquote>
         <figcaption className="mt-2 text-sm text-muted-foreground">
-          — Solo bookkeeper, interview #031, midway through an L3 experiment
+          — Solo bookkeeper, interview #31, midway through an L3 experiment
         </figcaption>
       </figure>
       <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed text-muted-foreground">
@@ -311,7 +358,17 @@ function DescentBlock({ step }: { step: number }) {
   );
 }
 
-function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => void }) {
+function LadderSvg({
+  step,
+  onSelect,
+  youRef,
+  continuous,
+}: {
+  step: number;
+  onSelect: (i: number) => void;
+  youRef: RefObject<SVGGElement | null>;
+  continuous: boolean;
+}) {
   const onKey = (i: number) => (e: KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -319,13 +376,7 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
     }
   };
   const st = STEPS[step];
-  // On the ground it stands (feet on the ground line); on a rung it sits with its
-  // body on the rung's top edge, at a different spot per step.
-  const seatY =
-    st.you === 0
-      ? GROUND_Y - (MASCOT_FEET_Y - MASCOT_SEAT_Y) * MASCOT_SCALE
-      : RUNG_Y[st.you] - 9;
-  const seatDx = SEAT_X[step] - 190;
+  const seat = seatFor(step);
 
   return (
     <svg
@@ -417,15 +468,24 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
         <path className="sl-return-head" d="M222 279 L213 277 L216 268" />
       </g>
 
-      {/* "You": the mascot. Stands on the ground at L0, sits on the current rung otherwise. */}
+      {/* "You" marker: climbs the ladder with your scroll */}
       <g
-        className={`sl-you${st.you === 0 ? "" : " mascot-blink"}`}
-        style={{ transform: `translate(${seatDx}px, ${seatY}px)` }}
+        ref={youRef}
+        className={`sl-you${continuous ? " is-continuous" : ""}`}
+        // In continuous mode the scroll handler owns the transform.
+        style={continuous ? undefined : { transform: `translate(${seat.x}px, ${seat.y}px)` }}
         aria-hidden="true"
       >
-        <g transform={`translate(${190 - (MASCOT_W * MASCOT_SCALE) / 2} ${-MASCOT_SEAT_Y * MASCOT_SCALE}) scale(${MASCOT_SCALE})`}>
-          <MascotShape book pose={st.you === 0 ? "stand" : "sit"} />
-        </g>
+        <rect x="171" y="-11" width="38" height="22" rx="11" fill="white" stroke="var(--ink)" strokeWidth="1.5" />
+        <text
+          x="190"
+          y="4"
+          textAnchor="middle"
+          fill="var(--ink)"
+          style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600 }}
+        >
+          you
+        </text>
       </g>
     </svg>
   );

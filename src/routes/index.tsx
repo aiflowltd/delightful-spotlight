@@ -4,8 +4,9 @@ import { SocialLinks } from "@/components/SocialLinks";
 import { HeroLadder } from "@/components/HeroLadder";
 import { CanonShelf } from "@/components/CanonShelf";
 import { DrmCards } from "@/components/DrmCards";
-import { ScrollLadder } from "@/components/ScrollLadder";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
+import { WaitlistForm } from "@/components/WaitlistForm";
+import { ScrollLadder } from "@/components/ScrollLadder";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -110,23 +111,14 @@ function ProblemSection() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={<>The hard part of startups has moved.</>}
-        />
-        <div className="mt-12 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-start">
+        <SectionHeader title={<>The hard part of startups has moved.</>} />
+        <div className="mt-12 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-center">
           <div className="prose-editorial max-w-xl">
-            <p>
-              The customer discovery canon — Blank, Fitzpatrick, Constable, Christensen,
-              Torres — was built when building was expensive. Discovery was insurance
-              against burning six months on the wrong code. Talk to customers, the
-              canon said, <em>before</em> you build.
-            </p>
-            <p>AI broke that deal.</p>
             <p>
               Building a working prototype now takes a weekend. The deterrent is gone.
               Founders skip discovery, ship to nobody, get a few likes, and call it
-              iteration. The cost of being wrong has collapsed — and so has the
-              discipline that used to come with the cost.
+              iteration. The cost of being wrong has collapsed, and so has the discipline
+              that used to come with the cost.
             </p>
             <p>
               The hard part used to live between insight and build. Now it lives between
@@ -134,9 +126,34 @@ function ProblemSection() {
               the inputs to your judgment are real.
             </p>
           </div>
-          <div className="lg:pt-4">
-            <HardPartDiagram />
-          </div>
+          <HardPartDiagram />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HappyEarsSection() {
+  return (
+    <section className="border-b" style={{ borderColor: "var(--rule)" }}>
+      <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-start">
+        <h2 className="font-display font-semibold text-[2.75rem] sm:text-[4rem] leading-[0.95] tracking-[-0.04em] [text-wrap:balance]">
+          Happy ears waste years.
+        </h2>
+        <div className="prose-editorial max-w-xl lg:pt-2">
+          <p>
+            You did the interviews. People said they’d use it. You felt the momentum and you
+            built. Months later the product is live and the same people who were excited
+            aren’t opening it, and you can’t tell what went wrong.
+          </p>
+          <p>
+            Nobody lied to you. They were being nice, and you were hoping, and it’s nearly
+            impossible to tell those two apart in the moment.
+          </p>
+          <p className="font-medium">
+            And that’s the cost of discovery: not the time you spend talking to customers,
+            but the year you spend building on what you thought you heard.
+          </p>
         </div>
       </div>
     </section>
@@ -145,21 +162,21 @@ function ProblemSection() {
 
 function FrameworkSection() {
   return (
-    <section id="framework" className="border-b" style={{ borderColor: "var(--rule)", background: "#F5F4F8" }}>
+    <section id="framework" className="border-b overflow-x-clip" style={{ borderColor: "var(--rule)", background: "#F5F4F8" }}>
       <ScrollLadder
         header={
           <>
             <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
               A ladder, not a checklist.
             </h2>
+            <p className="mt-2 font-display text-xl sm:text-2xl leading-snug text-ink">
+              The shortest roadmap to validating your business.
+            </p>
             <div className="mt-4 max-w-3xl space-y-3 text-base sm:text-[17px] text-muted-foreground leading-relaxed">
               <p>
-                <span className="font-medium text-ink">
-                  The shortest roadmap to validating your business.
-                </span>{" "}
                 Each level tests a riskier assumption than the last, in the order that removes
-                risk fastest. The levels are additive: you don't leave one behind, you carry it.
-                A Level 3 conversation opens by reconfirming Levels 1 and 2.
+                risk fastest. You move up to the next level once you have enough evidence to
+                earn it.
               </p>
               <p>
                 As you climb, verified evidence gets logged in your{" "}
@@ -169,8 +186,8 @@ function FrameworkSection() {
                 >
                   DRM
                 </a>
-                , so your AI tools build on what customers actually said and did, not on what
-                you hoped they would. Scroll to climb.
+                , so your AI tools build on what customers actually said and did. Scroll to
+                climb.
               </p>
             </div>
           </>
@@ -233,26 +250,20 @@ function DRMSection() {
     <section id="drm" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-12 items-center">
         <div>
-          <div className="flex items-center gap-3 font-mono text-xs sm:text-[0.8rem] text-ink">
-            <span className="px-1.5 py-0.5 font-medium text-white" style={{ background: "var(--violet)" }}>
-              DRM
-            </span>
-            Discovery Records Manager
-          </div>
 
-          <h2 className="mt-6 font-display text-[2.5rem] sm:text-[3.25rem] leading-[1.02] tracking-[-0.03em]">
+          <h2 className="font-display text-[2.5rem] sm:text-[3.25rem] leading-[1.02] tracking-[-0.03em]">
             Every company has a CRM. Every startup needs a DRM.
           </h2>
 
           <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
-            The canonical ledger of what you've learned. Two rules: quotes, not summaries,
+            The Discovery Records Manager is a ledger of evidence that grows with your business. Two rules: quotes, not summaries,
             and behavior, not interpretation. Without it, every level claim is founder
             narration.
           </p>
 
           <div className="mt-10 grid sm:grid-cols-3 border-2" style={{ borderColor: "var(--ink)" }}>
             {[
-              ["Holds", "Evidence", "Verbatim quotes, observed behavior, pain scores."],
+              ["Tracks", "Evidence", "Verbatim quotes, observed behavior, pain scores."],
               ["Helps", "AI", "Reads transcripts, applies the rubrics, surfaces candidates."],
               ["Decides", "You", "AI can tell you what you talked about. You decide what it means."],
             ].map(([kicker, title, body], i) => {
@@ -287,60 +298,44 @@ function DRMSection() {
   );
 }
 
-function WhoFor() {
-  return (
-    <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
-          Built for founders already in motion.
-        </h2>
-        <div className="mt-8 grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
-          <div className="prose-editorial max-w-2xl">
-            <p>The Discovery Ladder isn't a tutorial. It's a mirror.</p>
-            <p>
-              If you've already done customer discovery — talked to humans, run
-              interviews, maybe even shipped something — and you're not sure whether
-              what you've learned is enough to keep building, the Ladder is calibrated
-              for you. It tells you which rung you're actually on, what evidence you're
-              missing, and what you need before the next build.
-            </p>
-            <p>
-              If you're stuck, the Ladder lets you descend — find the missing rung,
-              fill the gap, and climb back up. Most teams don't need to start over.
-              They need to find the level they skipped.
-            </p>
-          </div>
-
-          <figure className="border-l-4 pl-6" style={{ borderColor: "var(--violet)" }}>
-            <blockquote className="font-display text-2xl sm:text-3xl leading-snug text-ink">
-              "Discovery and building are the same activity at different fidelities.
-              Each level earns the right to ship the next."
-            </blockquote>
-            <figcaption className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-              From the L3 methodology brief
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Origin() {
   return (
     <section id="origin" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          title={<>Built on the canon, calibrated for the new bottleneck.</>}
+          title={<>Built on the canon, delivered just in time.</>}
         />
         <div className="mt-14">
-          <CanonShelf />
+          <CanonShelf
+            caption={
+              <div>
+                <ul className="space-y-3.5">
+                  {[
+                    ["L3", "Value", "Constable & Rimalovski, Blank & Dorf, Ries, Osterwalder", "var(--teal)", "var(--ink)"],
+                    ["L2", "Jobs", "Christensen", "var(--amber)", "var(--ink)"],
+                    ["L1", "Problem", "Blank, Fitzpatrick, Constable & Rimalovski", "var(--red)", "white"],
+                  ].map(([level, name, sources, bg, fg]) => (
+                    <li key={level} className="flex items-baseline gap-3">
+                      <span
+                        className="inline-grid h-6 min-w-7 shrink-0 place-items-center px-1.5 font-mono text-xs font-semibold translate-y-[-1px]"
+                        style={{ background: bg, color: fg }}
+                      >
+                        {level}
+                      </span>
+                      <span className="text-base sm:text-lg leading-snug">
+                        <span className="font-display font-medium text-ink">{name}</span>
+                        <span className="text-muted-foreground">: {sources}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 text-base sm:text-lg text-muted-foreground">
+                  The ladder puts them in sequence.
+                </p>
+              </div>
+            }
+          />
         </div>
-        <p className="mt-8 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-          Problem Discovery owes its DNA to Blank, Constable and Fitzpatrick; Jobs to
-          Christensen; Value to Constable &amp; Rimalovski, Blank &amp; Dorf, Ries and
-          Osterwalder. The ladder puts them in sequence.
-        </p>
       </div>
     </section>
   );
@@ -359,21 +354,11 @@ function CTASection() {
               A mirror for the discovery you're already doing.
             </h2>
             <p className="mt-5 max-w-xl text-lg opacity-85">
-              Get Darren's essays on the framework — the four levels, the Pain Scale,
-              and the DRM — in your inbox as they're published.
+              Be first to try the Discovery Ladder and the DRM. Join the waitlist and
+              we'll let you know as soon as it opens.
             </p>
           </div>
-          {/* Substack's own signup embed */}
-          <iframe
-            src="https://darrenyee.substack.com/embed?transparent=1&light=1"
-            title="Subscribe to Darren Yee's Substack"
-            width={480}
-            height={150}
-            className="w-full max-w-[480px]"
-            style={{ border: 0, background: "transparent" }}
-            frameBorder={0}
-            scrolling="no"
-          />
+          <WaitlistForm />
         </div>
       </div>
     </section>
@@ -389,9 +374,7 @@ function Footer() {
         </div>
         <div className="flex flex-wrap items-center gap-6">
           <Link to="/blog" className="hover:text-foreground">Blog</Link>
-          <a href="#" className="hover:text-foreground">Methodology brief</a>
-          <a href="#" className="hover:text-foreground">NYU Entrepreneurial Institute</a>
-          <a href="#" className="hover:text-foreground">Contact</a>
+          <Link to="/about" className="hover:text-foreground">About</Link>
           <span className="hidden sm:block h-4 w-px" style={{ background: "var(--rule)" }} />
           <SocialLinks />
         </div>
@@ -406,10 +389,10 @@ function LandingPage() {
       <SiteNav />
       <Hero />
       <ProblemSection />
+      <HappyEarsSection />
       <FrameworkSection />
       <StructuralIdeas />
       <DRMSection />
-      <WhoFor />
       <Origin />
       <CTASection />
       <Footer />

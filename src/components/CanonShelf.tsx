@@ -1,143 +1,48 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { MascotShape } from "@/components/Mascot";
-
-/** Books on the shelf, left to right. `h` is the spine height in px at desktop size. */
-const books = [
-  { title: "The Four Steps to the Epiphany", author: "Blank", color: "#2B2A35", h: 398 },
-  { title: "Talking to Humans", author: "Constable", color: "#3D3F9E", h: 312 },
-  { title: "The Mom Test", author: "Fitzpatrick", color: "#B8300F", h: 284 },
-  { title: "Competing Against Luck", author: "Christensen", color: "#1F70BA", h: 360 },
-  { title: "Testing with Humans", author: "Constable & Rimalovski", color: "#561D96", h: 332 },
-  { title: "The Startup Owner's Manual", author: "Blank & Dorf", color: "#4B4560", h: 356 },
-  { title: "The Lean Startup", author: "Ries", color: "#18171F", h: 341 },
-  { title: "Value Proposition Design", author: "Osterwalder", color: "#18A2C6", h: 379 },
-];
-
-/** Rung colors, bottom (L1) to top (L4) — same palette as the hero ladder. */
-const rungs = ["var(--red)", "var(--amber)", "var(--teal)", "var(--green)"];
-
-const vertical: CSSProperties = { writingMode: "vertical-rl", transform: "rotate(180deg)" };
-
-export function CanonShelf() {
-  return (
-    <figure aria-label="The books the Discovery Ladder builds on, with the ladder leaning beside them">
-      <div className="flex items-end gap-1 sm:gap-1.5 border-b-[3px]" style={{ borderColor: "var(--ink)" }}>
-        {books.map((b) => (
-          <div
-            key={b.title}
-            className="flex w-[27px] sm:w-[54px] shrink-0 flex-col items-center justify-end sm:justify-between py-2.5 sm:py-3 h-[calc(var(--h)*0.62px)] sm:h-[calc(var(--h)*1px)]"
-            style={{ background: b.color, "--h": b.h } as CSSProperties}
-            title={`${b.title} — ${b.author}`}
-          >
-            <span
-              className="hidden sm:inline font-mono text-[10px] tracking-wide text-white/75 whitespace-nowrap"
-              style={vertical}
-            >
-              {b.author}
-            </span>
-            <span
-              className="font-display font-medium text-[9.5px] sm:text-[15px] leading-none text-white whitespace-nowrap"
-              style={vertical}
-            >
-              {b.title}
-            </span>
-          </div>
-        ))}
-
-        <Walker />
-        <LeaningLadder />
-      </div>
-    </figure>
-  );
-}
+import type { CSSProperties, ReactNode } from "react";
 
 /**
- * A plain violet figure that walks from the books to the foot of the ladder once,
- * when the shelf scrolls into view. Desktop only (the gap is too narrow on phones).
- * Reduced motion: drawn already standing at the ladder.
+ * Books lying flat in a pile, bottom to top, grouped like the ladder:
+ * L1 sources at the base, L2 in the middle, L3 on top. Sizes are desktop px
+ * (x = left offset, w = length, h = thickness); phones scale them down.
  */
-function Walker() {
-  const pathRef = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<"waiting" | "walking" | "arrived">("waiting");
+const books = [
+  { title: "The Four Steps to the Epiphany", author: "Blank", color: "#2B2A35", x: 0, w: 430, h: 46 },
+  { title: "Talking to Humans", author: "Constable & Rimalovski", color: "#3D3F9E", x: 18, w: 400, h: 38 },
+  { title: "The Mom Test", author: "Fitzpatrick", color: "#B8300F", x: 6, w: 380, h: 36 },
+  { title: "Competing Against Luck", author: "Christensen", color: "#1F70BA", x: 24, w: 410, h: 42 },
+  { title: "Testing with Humans", author: "Constable & Rimalovski", color: "#561D96", x: 10, w: 390, h: 38 },
+  { title: "The Startup Owner's Manual", author: "Blank & Dorf", color: "#4B4560", x: 30, w: 395, h: 44 },
+  { title: "The Lean Startup", author: "Ries", color: "#18171F", x: 16, w: 400, h: 38 },
+  { title: "Value Proposition Design", author: "Osterwalder", color: "#18A2C6", x: 40, w: 420, h: 40 },
+];
 
-  useEffect(() => {
-    const el = pathRef.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setPhase("arrived");
-      return;
-    }
-    if (typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setPhase("walking");
-          io.disconnect();
-        }
-      },
-      { threshold: 0.6 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
+/** `caption` sits to the right of the pile on wide screens, below it otherwise. */
+export function CanonShelf({ caption }: { caption?: ReactNode }) {
   return (
-    <div ref={pathRef} className="relative hidden sm:block flex-1 self-stretch" aria-hidden>
-      <div
-        className={`walker walker-${phase}`}
-        onTransitionEnd={() => setPhase("arrived")}
-      >
-        <svg viewBox="0 0 62 74" width="62" height="74" className="block overflow-visible">
-          <MascotShape look="right" book />
-        </svg>
+    <figure aria-label="The books the Discovery Ladder builds on, stacked in a pile">
+      <div className="flex items-center border-b-[3px]" style={{ borderColor: "var(--ink)" }}>
+        <div className="flex shrink-0 flex-col-reverse w-[calc(460px*0.55)] sm:w-[460px]">
+          {books.map((b) => (
+            <div
+              key={b.title}
+              className="flex items-center justify-between gap-3 px-2 sm:px-3.5 ml-[calc(var(--x)*0.55px)] sm:ml-[calc(var(--x)*1px)] w-[calc(var(--w)*0.55px)] sm:w-[calc(var(--w)*1px)] h-[calc(var(--h)*0.6px)] sm:h-[calc(var(--h)*1px)]"
+              style={{ background: b.color, "--x": b.x, "--w": b.w, "--h": b.h } as CSSProperties}
+              title={`${b.title} — ${b.author}`}
+            >
+              <span className="truncate font-display font-medium text-[9.5px] sm:text-[15px] leading-none text-white">
+                {b.title}
+              </span>
+              <span className="hidden sm:inline shrink-0 font-mono text-[10px] tracking-wide text-white/75 whitespace-nowrap">
+                {b.author}
+              </span>
+            </div>
+          ))}
+        </div>
+        {caption && (
+          <div className="hidden lg:block flex-1 pl-16 max-w-xl">{caption}</div>
+        )}
       </div>
-    </div>
-  );
-}
-
-function LeaningLadder() {
-  // Rails lean right ~8°. Coordinates in a 120 × 410 box; feet sit on the ground (y = 410).
-  const left = { x0: 4, y0: 410, x1: 62, y1: 0 };
-  const right = { x0: 46, y0: 410, x1: 104, y1: 6 };
-  const at = (r: typeof left, t: number) => ({
-    x: r.x0 + (r.x1 - r.x0) * t,
-    y: r.y0 + (r.y1 - r.y0) * t,
-  });
-  const steps = [0.21, 0.42, 0.62, 0.83];
-
-  return (
-    <svg
-      viewBox="0 0 120 410"
-      className="ml-auto sm:ml-0 -mr-[10px] sm:-mr-4 h-[254px] sm:h-[410px] w-auto shrink-0 overflow-visible"
-      aria-hidden
-    >
-      {steps.map((t, i) => {
-        const a = at(left, t);
-        const b = at(right, t - 0.012);
-        return (
-          <line
-            key={t}
-            x1={a.x}
-            y1={a.y}
-            x2={b.x}
-            y2={b.y}
-            stroke={rungs[i]}
-            strokeWidth={6}
-          />
-        );
-      })}
-      {[left, right].map((r, i) => (
-        <line
-          key={i}
-          x1={r.x0}
-          y1={r.y0}
-          x2={r.x1}
-          y2={r.y1}
-          stroke="var(--ink)"
-          strokeWidth={4}
-          strokeLinecap="butt"
-        />
-      ))}
-    </svg>
+      {caption && <div className="mt-8 lg:hidden">{caption}</div>}
+    </figure>
   );
 }

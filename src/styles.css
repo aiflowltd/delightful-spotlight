@@ -297,84 +297,6 @@
   }
 }
 
-/* Canon shelf walker */
-.walker {
-  position: absolute;
-  bottom: 0;
-  left: 20px;
-  fill: var(--violet);
-  transition: left 4.5s linear;
-}
-.walker-walking,
-.walker-arrived {
-  left: calc(100% - 66px);
-}
-.walker-leg {
-  transform-box: fill-box;
-  transform-origin: 50% 0;
-}
-.walker-walking .walker-leg-a {
-  animation: walker-step 0.5s ease-in-out infinite alternate;
-}
-.walker-walking .walker-leg-b {
-  animation: walker-step 0.5s ease-in-out infinite alternate-reverse;
-}
-.walker-top {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-.walker-walking .walker-top {
-  animation: walker-waddle 0.5s ease-in-out infinite alternate;
-}
-@keyframes walker-step {
-  from { transform: rotate(-14deg); }
-  to { transform: rotate(14deg); }
-}
-@keyframes walker-waddle {
-  from { transform: rotate(-4deg) translateY(0); }
-  to { transform: rotate(4deg) translateY(-1.5px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .walker {
-    transition: none;
-  }
-  .walker-walking .walker-leg-a,
-  .walker-walking .walker-leg-b,
-  .walker-walking .walker-top {
-    animation: none;
-  }
-}
-/* On arrival the walker turns its eyes to the viewer */
-.walker-pupil {
-  transition: transform 0.35s ease-out 0.4s;
-}
-.walker-arrived .walker-pupil {
-  transform: translateX(-2px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .walker-pupil {
-    transition: none;
-  }
-}
-/* Mascot blink: when sitting on a ladder rung, or once the walker reaches the ladder */
-.mascot-eyes {
-  transform-box: fill-box;
-  transform-origin: 50% 50%;
-}
-.mascot-blink .mascot-eyes,
-.walker-arrived .mascot-eyes {
-  animation: mascot-blink 4.2s ease-in-out 1s infinite;
-}
-@keyframes mascot-blink {
-  0%, 90%, 100% { transform: scaleY(1); }
-  94% { transform: scaleY(0.12); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mascot-blink .mascot-eyes,
-  .walker-arrived .mascot-eyes {
-    animation: none;
-  }
-}
 /* Scroll ladder: on desktop the whole section pins under the nav while the page scrolls
    through the steps; one card shows at a time. */
 @media (min-width: 980px) {
@@ -421,4 +343,46 @@
   .sl-card.is-active {
     transition: none;
   }
+}
+/* "The hard part has moved": the judgment line draws in right-to-left, holds, fades, repeats */
+.hard-part .hp-line {
+  clip-path: inset(0 0 0 100%);
+}
+.hard-part .hp-label {
+  opacity: 0;
+}
+.hard-part.is-live .hp-line {
+  animation: hp-draw 5.5s ease-in-out infinite;
+}
+.hard-part.is-live .hp-label {
+  animation: hp-label 5.5s ease-in-out infinite;
+}
+@keyframes hp-draw {
+  0% { clip-path: inset(0 0 0 100%); opacity: 1; }
+  18% { clip-path: inset(0 0 0 0); opacity: 1; }
+  82% { clip-path: inset(0 0 0 0); opacity: 1; }
+  95% { clip-path: inset(0 0 0 0); opacity: 0; }
+  100% { clip-path: inset(0 0 0 100%); opacity: 0; }
+}
+@keyframes hp-label {
+  0%, 14% { opacity: 0; }
+  24% { opacity: 1; }
+  82% { opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hard-part .hp-line,
+  .hard-part.is-live .hp-line {
+    animation: none;
+    clip-path: none;
+  }
+  .hard-part .hp-label,
+  .hard-part.is-live .hp-label {
+    animation: none;
+    opacity: 1;
+  }
+}
+/* Continuous climb: the scroll handler moves the "you" marker every frame, so no transition. */
+.scroll-ladder .sl-you.is-continuous {
+  transition: none;
 }

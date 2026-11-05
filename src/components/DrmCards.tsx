@@ -17,7 +17,7 @@ interface DrmRecord {
 
 const records: DrmRecord[] = [
   {
-    id: "#014",
+    id: "#14",
     segment: "Ops lead, logistics",
     quote:
       "Every Monday I rebuild the same spreadsheet by hand. I've stopped telling my boss how long it takes.",
@@ -26,7 +26,7 @@ const records: DrmRecord[] = [
     level: "L2",
   },
   {
-    id: "#031",
+    id: "#31",
     segment: "Solo bookkeeper",
     quote: "What kills me is chasing the clients for the remittance slips.",
     pain: { score: 5, label: "Hair on Fire", tone: "rose" },
@@ -34,7 +34,7 @@ const records: DrmRecord[] = [
     level: "L3 → L2",
   },
   {
-    id: "#007",
+    id: "#7",
     segment: "Clinic manager",
     quote: "Oh yeah, that would be super useful.",
     pain: { score: 3, label: "Nice to Have", tone: "amber" },
@@ -75,7 +75,7 @@ function RecordCard({ r, className = "" }: { r: DrmRecord; className?: string })
       style={{ borderColor: "#E2E8F0" }}
     >
       <header className="flex items-center justify-between gap-3">
-        <span className="font-mono text-[11px] text-slate-500">DRM · {r.id}</span>
+        <span className="font-mono text-[11px] text-slate-500">Interview {r.id}</span>
         <span
           className="rounded-full px-2 py-0.5 text-[11px] font-medium"
           style={{ background: "#F1F5F9", color: "#475569" }}

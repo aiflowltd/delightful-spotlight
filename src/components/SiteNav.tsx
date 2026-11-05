@@ -1,5 +1,4 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { MascotIcon } from "@/components/Mascot";
 
 // The one site header, shared by every page.
 // Section links are plain anchors to "/#id": on the home page they just
@@ -26,7 +25,12 @@ export function SiteNav({ cta = DEFAULT_CTA }: { cta?: Cta }) {
     >
       <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <MascotIcon size={30} />
+          <div
+            className="h-7 w-7 rounded-sm grid place-items-center text-white font-display text-sm"
+            style={{ background: "var(--violet)" }}
+          >
+            DL
+          </div>
           <div className="leading-tight">
             <div className="font-display text-base">The Discovery Ladder</div>
           </div>
@@ -42,7 +46,7 @@ export function SiteNav({ cta = DEFAULT_CTA }: { cta?: Cta }) {
               key={l.to}
               to={l.to}
               className={
-                pathname === l.to
+                pathname === l.to || pathname.startsWith(`${l.to}/`)
                   ? "text-foreground transition-colors"
                   : "hover:text-foreground transition-colors"
               }
