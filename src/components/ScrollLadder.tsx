@@ -13,7 +13,7 @@ type Level = {
   question: string;
   body: ReactNode;
   discover: string;
-  ship: { verb: string; name: string; note: string };
+  ship: { name: string; note: string };
   color: string;
 };
 
@@ -33,7 +33,7 @@ const levels: Level[] = [
       </>
     ),
     discover: "ICP",
-    ship: { verb: "Refine", name: "Continuously", note: "Disqualify people outside it in two minutes." },
+    ship: { name: "Continuously", note: "Disqualify people outside it in two minutes." },
     color: "#ECEBF1",
   },
   {
@@ -51,7 +51,6 @@ const levels: Level[] = [
     ),
     discover: "Problem",
     ship: {
-      verb: "Ships",
       name: "Customer Persona",
       note: "Evidence-backed: quotes and behavior, not a guess.",
     },
@@ -70,7 +69,7 @@ const levels: Level[] = [
       </>
     ),
     discover: "Jobs",
-    ship: { verb: "Ships", name: "MVP Scope", note: "One page: the wedge job, and the say-no list." },
+    ship: { name: "MVP Scope", note: "One page: the wedge job, and the say-no list." },
     color: "#3D43A4",
   },
   {
@@ -87,7 +86,7 @@ const levels: Level[] = [
       </>
     ),
     discover: "Value",
-    ship: { verb: "Ships", name: "Experiments", note: "Disposable code, durable learning." },
+    ship: { name: "Experiments", note: "Disposable code, durable learning." },
     color: "#1F74BE",
   },
   {
@@ -103,7 +102,7 @@ const levels: Level[] = [
       </>
     ),
     discover: "GTM",
-    ship: { verb: "Ships", name: "Growth Engine", note: "A path to customers you can repeat." },
+    ship: { name: "Growth Engine", note: "A path to customers you can repeat." },
     color: "#18A7CC",
   },
 ];
@@ -203,9 +202,6 @@ function LevelBlock({ level, index, step }: { level: Level; index: number; step:
         className="mt-auto flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-t-[1.5px] pt-3.5"
         style={{ borderColor: "var(--ink)" }}
       >
-        <span className="font-mono text-xs" style={{ color: "var(--violet)" }}>
-          {level.ship.verb}
-        </span>
         <b className="font-display text-[22px] font-medium italic text-ink">{level.ship.name}</b>
         <span className="text-[15px] text-muted-foreground">{level.ship.note}</span>
       </div>
