@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 import { HeroLadder } from "@/components/HeroLadder";
+import { CanonShelf } from "@/components/CanonShelf";
 import { LadderExplorer } from "@/components/LadderExplorer";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
@@ -337,46 +338,14 @@ function Origin() {
         <SectionHeader
           title={<>Built on the canon, calibrated for the new bottleneck.</>}
         />
-        <div className="mt-10 grid lg:grid-cols-[1.1fr_1fr] gap-14">
-          <div className="prose-editorial max-w-xl">
-            <p>
-              The Discovery Ladder is a synthesis, not an invention. L1 builds on{" "}
-              <em>Talking to Humans</em> (Constable & Rimalovski) and{" "}
-              <em>The Mom Test</em> (Fitzpatrick). L2 builds on Christensen's Jobs to
-              Be Done and Torres's continuous discovery. L3 is the spine of{" "}
-              <em>Testing with Humans</em> (Constable). L4 borrows from Blank's
-              customer development.
-            </p>
-            <p>
-              What's new is the structure — pairing each level with a build artifact,
-              making the rungs additive, and calibrating the framework around AI-era
-              founder judgment as the scarce resource.
-            </p>
-            <p>
-              Built and taught at the <strong>NYU Entrepreneurial Institute</strong>,
-              in active development with the Startup Sprint cohort.
-            </p>
-          </div>
-          <ul className="space-y-3 text-sm">
-            {[
-              ["Talking to Humans", "Constable & Rimalovski"],
-              ["The Mom Test", "Fitzpatrick"],
-              ["Testing with Humans", "Constable"],
-              ["Jobs to Be Done", "Christensen"],
-              ["Continuous Discovery", "Torres"],
-              ["Four Steps to the Epiphany", "Blank"],
-            ].map(([t, a]) => (
-              <li
-                key={t}
-                className="flex items-baseline justify-between border-b py-3"
-                style={{ borderColor: "var(--rule)" }}
-              >
-                <span className="font-display text-lg">{t}</span>
-                <span className="text-muted-foreground">{a}</span>
-              </li>
-            ))}
-          </ul>
+        <div className="mt-14">
+          <CanonShelf />
         </div>
+        <p className="mt-8 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+          Problem Discovery owes its DNA to Blank, Constable and Fitzpatrick; Jobs to
+          Christensen; Value to Constable &amp; Rimalovski, Ries and Osterwalder. The
+          ladder puts them in sequence.
+        </p>
       </div>
     </section>
   );
