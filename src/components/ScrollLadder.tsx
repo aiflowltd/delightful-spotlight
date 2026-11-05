@@ -373,7 +373,17 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
             <rect x="0" y={y - 40} width="420" height="80" fill="transparent" />
             <rect className="sl-focus" x="132" y={y - 17} width="116" height="34" rx="4" />
             <rect className="sl-bar" x="140" y={y - 9} width="100" height="18" />
-            <path className="sl-x" d={`M170 ${y - 12} L210 ${y + 12} M210 ${y - 12} L170 ${y + 12}`} />
+            {/* Snapped plank, shown when this rung breaks during the descent */}
+            <g className="sl-broken" aria-hidden="true">
+              <path
+                className="sl-piece sl-piece-l"
+                d={`M140 ${y - 9} H187 L182 ${y - 3} L189 ${y + 2} L184 ${y + 9} H140 Z`}
+              />
+              <path
+                className="sl-piece sl-piece-r"
+                d={`M240 ${y - 9} H193 L188 ${y - 3} L195 ${y + 2} L190 ${y + 9} H240 Z`}
+              />
+            </g>
             <text x="126" y={y + 6} textAnchor="end" className="sl-label">
               {l.discover}
             </text>
@@ -402,7 +412,10 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
       </g>
 
       {/* Descent arrow: from L3 down to L2 */}
-      <path className="sl-down" d="M190 214 V276 M182 268 L190 278 L198 268" aria-hidden="true" />
+      <g className="sl-return" aria-hidden="true">
+        <path className="sl-return-line" d="M226 214 C240 236 238 260 214 276" pathLength="100" />
+        <path className="sl-return-head" d="M222 279 L213 277 L216 268" />
+      </g>
 
       {/* "You": the mascot. Stands on the ground at L0, sits on the current rung otherwise. */}
       <g
