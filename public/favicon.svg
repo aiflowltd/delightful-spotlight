@@ -1,4 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="6" fill="#571b94"/>
-  <text x="32" y="43" text-anchor="middle" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="30" fill="#ffffff">DL</text>
+  <g transform="translate(5 2.5) scale(0.8)">
+    <rect x="18" y="58" width="11" height="15" rx="5.5" fill="#571b94"/>
+    <rect x="33" y="58" width="11" height="15" rx="5.5" fill="#571b94"/>
+    <path d="M31 9C29 4 33 1 36 3" fill="none" stroke="#571b94" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M31 7C48 7 57 20 57 37C57 54 47 64 31 64C15 64 5 54 5 37C5 20 14 7 31 7Z" fill="#571b94"/>
+    <circle cx="24.5" cy="27" r="5.6" fill="#fff"/>
+    <circle cx="38.5" cy="27" r="5.6" fill="#fff"/>
+    <circle cx="24.5" cy="27.5" r="2.7" fill="#15131d"/>
+    <circle cx="38.5" cy="27.5" r="2.7" fill="#15131d"/>
+    <g transform="rotate(-10 54 46)">
+      <rect x="46" y="34" width="17" height="23" rx="1.5" fill="#B8300F"/>
+      <rect x="61" y="35.5" width="2.5" height="20" rx="0.8" fill="#F3EDE6"/>
+    </g>
+    <ellipse cx="48" cy="46" rx="4.8" ry="7.5" fill="#4A1B86" transform="rotate(-20 48 46)"/>
+  </g>
 </svg>

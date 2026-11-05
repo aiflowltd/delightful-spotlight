@@ -48,28 +48,9 @@ function Hero() {
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 pt-16 pb-20 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-8 items-center">
         <div>
-          <h1 className="font-display font-semibold text-[3.5rem] sm:text-[4.75rem] lg:text-[5.25rem] leading-[0.92] tracking-[-0.05em]">
-            Happy ears
-            <br />
-            waste{" "}
-            <span className="relative inline-block">
-              years.
-              <span
-                aria-hidden
-                className="absolute left-0 right-0 -bottom-3 sm:-bottom-4 h-[5px] sm:h-[6px]"
-                style={{ background: "var(--violet)" }}
-              />
-              <span
-                aria-hidden
-                className="absolute left-0 -bottom-4 sm:-bottom-5 h-3.5 sm:h-4 w-[2px] sm:w-[3px]"
-                style={{ background: "var(--ink)" }}
-              />
-              <span
-                aria-hidden
-                className="absolute right-0 -bottom-4 sm:-bottom-5 h-3.5 sm:h-4 w-[2px] sm:w-[3px]"
-                style={{ background: "var(--ink)" }}
-              />
-            </span>
+          <h1 className="font-display font-semibold text-[2.6rem] sm:text-[3.6rem] lg:text-[4rem] leading-[1] tracking-[-0.04em] [text-wrap:balance]">
+            The customer discovery framework for the{" "}
+            <span className="whitespace-nowrap">age of AI.</span>
           </h1>
 
           <p className="mt-10 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
@@ -165,17 +146,36 @@ function ProblemSection() {
 function FrameworkSection() {
   return (
     <section id="framework" className="border-b" style={{ borderColor: "var(--rule)", background: "#F5F4F8" }}>
-      <div className="mx-auto max-w-6xl px-6 pt-24 pb-10">
-        <SectionHeader title={<>A ladder, not a checklist.</>} />
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          The levels are additive. You don't leave a level behind; you carry it. A Level 3
-          conversation opens by reconfirming Levels 1 and 2. Scroll to climb.
-        </p>
-
-        <div className="mt-12">
-          <ScrollLadder />
-        </div>
-      </div>
+      <ScrollLadder
+        header={
+          <>
+            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+              A ladder, not a checklist.
+            </h2>
+            <div className="mt-4 max-w-3xl space-y-3 text-base sm:text-[17px] text-muted-foreground leading-relaxed">
+              <p>
+                <span className="font-medium text-ink">
+                  The shortest roadmap to validating your business.
+                </span>{" "}
+                Each level tests a riskier assumption than the last, in the order that removes
+                risk fastest. The levels are additive: you don't leave one behind, you carry it.
+                A Level 3 conversation opens by reconfirming Levels 1 and 2.
+              </p>
+              <p>
+                As you climb, verified evidence gets logged in your{" "}
+                <a
+                  href="#drm"
+                  className="underline decoration-[var(--rule)] underline-offset-4 hover:text-ink"
+                >
+                  DRM
+                </a>
+                , so your AI tools build on what customers actually said and did, not on what
+                you hoped they would. Scroll to climb.
+              </p>
+            </div>
+          </>
+        }
+      />
     </section>
   );
 }
@@ -338,8 +338,8 @@ function Origin() {
         </div>
         <p className="mt-8 max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
           Problem Discovery owes its DNA to Blank, Constable and Fitzpatrick; Jobs to
-          Christensen; Value to Constable &amp; Rimalovski, Ries and Osterwalder. The
-          ladder puts them in sequence.
+          Christensen; Value to Constable &amp; Rimalovski, Blank &amp; Dorf, Ries and
+          Osterwalder. The ladder puts them in sequence.
         </p>
       </div>
     </section>
@@ -363,35 +363,17 @@ function CTASection() {
               and the DRM — in your inbox as they're published.
             </p>
           </div>
-          {/* Opens Substack's signup page with the email pre-filled; the visitor confirms there. */}
-          <form
-            action="https://darrenyee.substack.com/subscribe"
-            method="get"
-            target="_blank"
-            className="w-full max-w-md"
-          >
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label htmlFor="subscribe-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="subscribe-email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                placeholder="you@startup.com"
-                className="flex-1 min-w-0 rounded-sm bg-white px-4 py-3 text-sm text-[#1a1a1a] placeholder:text-[#8a8a8a] outline-none focus:ring-2 focus:ring-[var(--teal)]"
-              />
-              <button
-                type="submit"
-                className="rounded-sm px-5 py-3 text-sm font-medium transition hover:brightness-95"
-                style={{ background: "var(--teal)", color: "#0a2229" }}
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
+          {/* Substack's own signup embed */}
+          <iframe
+            src="https://darrenyee.substack.com/embed?transparent=1&light=1"
+            title="Subscribe to Darren Yee's Substack"
+            width={480}
+            height={150}
+            className="w-full max-w-[480px]"
+            style={{ border: 0, background: "transparent" }}
+            frameBorder={0}
+            scrolling="no"
+          />
         </div>
       </div>
     </section>

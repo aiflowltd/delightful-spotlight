@@ -252,3 +252,129 @@
     transition: none;
   }
 }
+
+/* Canon shelf walker */
+.walker {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  fill: var(--violet);
+  transition: left 4.5s linear;
+}
+.walker-walking,
+.walker-arrived {
+  left: calc(100% - 66px);
+}
+.walker-leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+.walker-walking .walker-leg-a {
+  animation: walker-step 0.5s ease-in-out infinite alternate;
+}
+.walker-walking .walker-leg-b {
+  animation: walker-step 0.5s ease-in-out infinite alternate-reverse;
+}
+.walker-top {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.walker-walking .walker-top {
+  animation: walker-waddle 0.5s ease-in-out infinite alternate;
+}
+@keyframes walker-step {
+  from { transform: rotate(-14deg); }
+  to { transform: rotate(14deg); }
+}
+@keyframes walker-waddle {
+  from { transform: rotate(-4deg) translateY(0); }
+  to { transform: rotate(4deg) translateY(-1.5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .walker {
+    transition: none;
+  }
+  .walker-walking .walker-leg-a,
+  .walker-walking .walker-leg-b,
+  .walker-walking .walker-top {
+    animation: none;
+  }
+}
+/* On arrival the walker turns its eyes to the viewer */
+.walker-pupil {
+  transition: transform 0.35s ease-out 0.4s;
+}
+.walker-arrived .walker-pupil {
+  transform: translateX(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .walker-pupil {
+    transition: none;
+  }
+}
+/* Mascot blink: when sitting on a ladder rung, or once the walker reaches the ladder */
+.mascot-eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.mascot-blink .mascot-eyes,
+.walker-arrived .mascot-eyes {
+  animation: mascot-blink 4.2s ease-in-out 1s infinite;
+}
+@keyframes mascot-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  94% { transform: scaleY(0.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mascot-blink .mascot-eyes,
+  .walker-arrived .mascot-eyes {
+    animation: none;
+  }
+}
+/* Scroll ladder: on desktop the whole section pins under the nav while the page scrolls
+   through the steps; one card shows at a time. */
+@media (min-width: 980px) {
+  .sl-outer {
+    height: calc(100vh - 72px + (var(--sl-steps) - 1) * var(--sl-step-vh));
+  }
+  .sl-stage {
+    position: sticky;
+    top: 72px;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sl-cards {
+    height: clamp(280px, calc(100vh - 430px), 470px);
+  }
+  .sl-card {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(-50% + 18px));
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease,
+      visibility 0s linear 0.45s;
+  }
+  .sl-card.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease,
+      visibility 0s;
+  }
+}
+@media (min-width: 980px) and (prefers-reduced-motion: reduce) {
+  .sl-card,
+  .sl-card.is-active {
+    transition: none;
+  }
+}

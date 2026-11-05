@@ -1,8 +1,8 @@
 const rungs = [
-  { level: "L4", discover: "GTM", ship: "Growth Engine", color: "#18A7CC", accent: true },
-  { level: "L3", discover: "Value", ship: "Experiments", color: "#1F74BE" },
-  { level: "L2", discover: "Jobs", ship: "MVP Scope", color: "#3D43A4" },
-  { level: "L1", discover: "Problem", ship: "Customer Persona", color: "#3B1460" },
+  { level: "L4", discover: "Growth", ship: "GTM", color: "var(--green)", accent: true },
+  { level: "L3", discover: "Value", ship: "Experiments", color: "var(--teal)" },
+  { level: "L2", discover: "Jobs", ship: "MVP Scope", color: "var(--amber)" },
+  { level: "L1", discover: "Problem", ship: "Customer Persona", color: "var(--red)" },
 ];
 
 const RAIL = "var(--ink)";
@@ -86,8 +86,8 @@ function Row({
       <div className="relative flex h-20 sm:h-[6.5rem] items-center">
         <Rails />
         <div
-          className="relative mx-[3px] sm:mx-1 flex h-8 sm:h-9 w-full items-center justify-center font-display text-sm text-white"
-          style={{ background: color }}
+          className="relative mx-[3px] sm:mx-1 flex h-8 sm:h-9 w-full items-center justify-center font-display text-sm"
+          style={{ background: color, color: color === "var(--amber)" ? "var(--ink)" : "white" }}
         >
           {level}
         </div>

@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { MASCOT_FEET_Y, MASCOT_SEAT_Y, MASCOT_W, MascotShape } from "@/components/Mascot";
+
+const MASCOT_SCALE = 0.72;
+
+/** Mascot's centre x per step: ground, L1 middle, L2 left, L3 right, descent (L2 left), L4 middle. */
+const SEAT_X = [190, 190, 166, 214, 166, 190];
 
 // "A ladder, not a checklist": a sticky ladder (desktop) that tracks which level block
 // is in the middle of the viewport. One IntersectionObserver, state changes only on step
@@ -27,9 +33,8 @@ const levels: Level[] = [
     question: "Organizations don't buy things. People do.",
     body: (
       <>
-        The ladder stands on a specific person, not a market. Inside every company-wide problem
-        that nobody owns, find the one human with agency over a slice of the workflow and a
-        hair-on-fire relationship to it. The ICP is never finished; it gets sharper every week.
+        The ladder stands on a specific person, not a market. The ICP is never finished; it
+        gets sharper every week.
       </>
     ),
     discover: "ICP",
@@ -54,7 +59,7 @@ const levels: Level[] = [
       name: "Customer Persona",
       note: "Evidence-backed: quotes and behavior, not a guess.",
     },
-    color: "#3B1460",
+    color: "var(--red)",
   },
   {
     id: "l2",
@@ -70,7 +75,7 @@ const levels: Level[] = [
     ),
     discover: "Jobs",
     ship: { name: "MVP Scope", note: "One page: the wedge job, and the say-no list." },
-    color: "#3D43A4",
+    color: "var(--amber)",
   },
   {
     id: "l3",
@@ -87,23 +92,23 @@ const levels: Level[] = [
     ),
     discover: "Value",
     ship: { name: "Experiments", note: "Disposable code, durable learning." },
-    color: "#1F74BE",
+    color: "var(--teal)",
   },
   {
     id: "l4",
     short: "L4",
     label: "Level 4",
-    title: "GTM Discovery",
+    title: "Growth Discovery",
     question: "Can you reach them, repeatably and affordably?",
     body: (
       <>
-        GTM is advanced discovery: the same muscle as Level 1, pointed at higher-stakes
+        This is advanced discovery: the same muscle as Level 1, pointed at higher-stakes
         assumptions. It branches by industry and often runs in parallel with Level 3.
       </>
     ),
-    discover: "GTM",
-    ship: { name: "Growth Engine", note: "A path to customers you can repeat." },
-    color: "#18A7CC",
+    discover: "Growth",
+    ship: { name: "GTM", note: "A path to customers you can repeat." },
+    color: "var(--green)",
   },
 ];
 
@@ -119,65 +124,115 @@ const STEPS: StepState[] = [
   { you: 2, carried: [1], now: 2, msg: "Level 2 · Jobs, carrying L1" },
   { you: 3, carried: [1, 2], now: 3, msg: "Level 3 · Value, carrying L1 + L2" },
   { you: 2, carried: [1], now: 2, broke: 3, msg: "Descended to L2. That’s the win." },
-  { you: 4, carried: [1, 2, 3], now: 4, msg: "Level 4 · GTM, carrying L1–L3" },
+  { you: 4, carried: [1, 2, 3], now: 4, msg: "Level 4 · Growth, carrying L1–L3" },
 ];
 const DESCENT_STEP = 4;
 
-export function ScrollLadder() {
+/** Scroll distance per step while the section is pinned (desktop). */
+const STEP_VH = 55;
+const STEP_COUNT = STEPS.length; // 6: L0, L1, L2, L3, descent, L4
+
+/**
+ * Desktop (≥980px): the section pins under the nav for STEP_COUNT steps of page scroll.
+ * Title, intro, ladder and the current card stay on screen; invisible sentinels in the
+ * tall outer box tell an IntersectionObserver which step is in the middle of the viewport.
+ * Below 980px: no pinning, no ladder; the cards stack.
+ */
+export function ScrollLadder({ header }: { header: ReactNode }) {
   const [step, setStep] = useState(0);
-  const blocksRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = blocksRef.current;
-    if (!root || typeof IntersectionObserver === "undefined") return;
-    const blocks = root.querySelectorAll<HTMLElement>("[data-step]");
+    const outer = outerRef.current;
+    if (!outer || typeof IntersectionObserver === "undefined") return;
+    const sentinels = outer.querySelectorAll<HTMLElement>("[data-sentinel]");
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) setStep(Number((e.target as HTMLElement).dataset.step));
+          if (e.isIntersecting) setStep(Number((e.target as HTMLElement).dataset.sentinel));
         }
       },
       { rootMargin: "-45% 0px -45% 0px" },
     );
-    blocks.forEach((b) => io.observe(b));
+    sentinels.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 
-  /** Scroll to a level's block (by level number, not step). */
+  /** Rung click: scroll the page so that level's step is active. */
   const goTo = (level: number) => {
-    const el = document.getElementById(`level-${levels[level].id}`);
+    const target = level === 4 ? 5 : level; // L4 comes after the descent step
+    const el = outerRef.current?.querySelector<HTMLElement>(`[data-sentinel="${target}"]`);
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    const r = el.getBoundingClientRect();
+    window.scrollTo({
+      top: window.scrollY + r.top + r.height / 2 - window.innerHeight / 2,
+      behavior: reduce ? "auto" : "smooth",
+    });
   };
 
-  return (
-    <div className="min-[980px]:grid min-[980px]:grid-cols-[380px_1fr] min-[980px]:gap-16">
-      <aside className="hidden min-[980px]:block self-start sticky top-[104px]">
-        <LadderSvg step={step} onSelect={goTo} />
-        <p className="mt-2 min-h-5 text-center font-mono text-[13px] font-medium text-muted-foreground" aria-live="polite">
-          {STEPS[step].msg}
-        </p>
-      </aside>
+  const cards = [
+    ...levels.slice(0, 4).map((l, i) => <LevelBlock key={l.id} level={l} index={i} step={i} />),
+    <DescentBlock key="descent" step={DESCENT_STEP} />,
+    <LevelBlock key={levels[4].id} level={levels[4]} index={4} step={5} />,
+  ];
 
-      <div ref={blocksRef} className="flex flex-col gap-5 min-[980px]:gap-7 min-[980px]:pb-[30vh]">
-        {levels.slice(0, 4).map((l, i) => (
-          <LevelBlock key={l.id} level={l} index={i} step={i} />
-        ))}
-        <DescentBlock step={DESCENT_STEP} />
-        <LevelBlock level={levels[4]} index={4} step={5} />
+  return (
+    <div
+      ref={outerRef}
+      className="sl-outer relative"
+      style={{ ["--sl-steps" as string]: STEP_COUNT, ["--sl-step-vh" as string]: `${STEP_VH}vh` }}
+    >
+      {/* Step sentinels (desktop only) */}
+      {Array.from({ length: STEP_COUNT }, (_, i) => (
+        <div
+          key={i}
+          data-sentinel={i}
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 hidden min-[980px]:block"
+          style={{ top: `${i * STEP_VH}vh`, height: `${STEP_VH}vh` }}
+        />
+      ))}
+
+      <div className="sl-stage mx-auto max-w-6xl px-6 pt-24 pb-16 min-[980px]:pt-10 min-[980px]:pb-8">
+        {header}
+
+        <div className="mt-10 min-[980px]:mt-8 min-[980px]:grid min-[980px]:grid-cols-[auto_1fr] min-[980px]:gap-14 min-[980px]:items-center">
+          <aside className="hidden min-[980px]:block">
+            <LadderSvg step={step} onSelect={goTo} />
+            <p
+              className="mt-1 min-h-5 text-center font-mono text-[13px] font-medium text-muted-foreground"
+              aria-live="polite"
+            >
+              {STEPS[step].msg}
+            </p>
+          </aside>
+
+          {/* Cards: stacked on phones; one at a time on desktop */}
+          <div className="sl-cards relative flex flex-col gap-5 min-[980px]:block">
+            {cards.map((card, i) => (
+              <div key={i} className={`sl-card${i === step ? " is-active" : ""}`}>
+                {card}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 function LevelBlock({ level, index, step }: { level: Level; index: number; step: number }) {
-  const chipText = index === 0 ? "var(--ink)" : "white";
+  const chipText = index === 0 || level.color === "var(--amber)" ? "var(--ink)" : "white";
+  // L0 is the ground, not a rung: a compact card so it doesn't add a screen of scrolling.
+  const compact = index === 0;
   return (
     <article
       id={`level-${level.id}`}
       data-step={step}
-      className="flex flex-col gap-5 bg-white p-6 sm:p-10 min-[980px]:min-h-[62vh] scroll-mt-28"
+      className={`flex flex-col bg-white scroll-mt-28 ${
+        compact ? "gap-3 p-6 sm:p-8" : "gap-4 p-6 sm:p-9"
+      }`}
     >
       <div className="flex items-center gap-3 font-mono text-[13px] font-medium text-muted-foreground">
         <span
@@ -192,14 +247,18 @@ function LevelBlock({ level, index, step }: { level: Level; index: number; step:
         </span>
         {level.title}
       </div>
-      <h3 className="font-display text-[1.75rem] sm:text-[2.4rem] leading-[1.08] tracking-[-0.02em] text-ink">
+      <h3
+        className={`font-display leading-[1.08] tracking-[-0.02em] text-ink ${
+          compact ? "text-[1.4rem] sm:text-[1.75rem]" : "text-[1.6rem] sm:text-[2.1rem]"
+        }`}
+      >
         {level.question}
       </h3>
       <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed text-muted-foreground">
         {level.body}
       </p>
       <div
-        className="mt-auto flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-t-[1.5px] pt-3.5"
+        className="mt-2 flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-t-[1.5px] pt-3.5"
         style={{ borderColor: "var(--ink)" }}
       >
         <b className="font-display text-[22px] font-medium italic text-ink">{level.ship.name}</b>
@@ -214,7 +273,7 @@ function DescentBlock({ step }: { step: number }) {
     <article
       id="level-descent"
       data-step={step}
-      className="flex flex-col gap-5 p-6 sm:p-10 min-[980px]:min-h-[62vh] scroll-mt-28"
+      className="flex flex-col gap-4 p-6 sm:p-9 scroll-mt-28"
       style={{ background: "#FCF6F8", boxShadow: "inset 0 0 0 1px #F2DCE5" }}
     >
       <div className="flex items-center gap-3 font-mono text-[13px] font-medium text-muted-foreground">
@@ -226,7 +285,7 @@ function DescentBlock({ step }: { step: number }) {
         </span>
         The descent
       </div>
-      <h3 className="font-display text-[1.75rem] sm:text-[2.4rem] leading-[1.08] tracking-[-0.02em] text-ink">
+      <h3 className="font-display text-[1.6rem] sm:text-[2.1rem] leading-[1.08] tracking-[-0.02em] text-ink">
         Treat the descent as the win.
       </h3>
       <figure className="max-w-[620px]">
@@ -243,7 +302,7 @@ function DescentBlock({ step }: { step: number }) {
         back because the evidence sent you there is the framework working.
       </p>
       <p
-        className="mt-auto border-t-[1.5px] pt-3.5 font-display text-[19px] italic"
+        className="mt-2 border-t-[1.5px] pt-3.5 font-display text-[19px] italic"
         style={{ borderColor: "var(--ink)", color: "#A3174A" }}
       >
         You just saved a quarter of building the wrong thing.
@@ -260,13 +319,18 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
     }
   };
   const st = STEPS[step];
-  const markerY = st.you === 0 ? GROUND_Y : RUNG_Y[st.you];
+  // On the ground it stands (feet on the ground line); on a rung it sits with its
+  // body on the rung's top edge, at a different spot per step.
+  const seatY =
+    st.you === 0
+      ? GROUND_Y - (MASCOT_FEET_Y - MASCOT_SEAT_Y) * MASCOT_SCALE
+      : RUNG_Y[st.you] - 9;
+  const seatDx = SEAT_X[step] - 190;
 
   return (
     <svg
       viewBox="0 0 420 520"
-      width="380"
-      className={`scroll-ladder block h-auto w-[380px] overflow-visible font-display${st.broke ? " desc" : ""}`}
+      className={`scroll-ladder block h-[clamp(280px,calc(100vh-430px),470px)] w-auto overflow-visible font-display${st.broke ? " desc" : ""}`}
       role="group"
       aria-label="Discovery Ladder progress"
     >
@@ -340,27 +404,15 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
       {/* Descent arrow: from L3 down to L2 */}
       <path className="sl-down" d="M190 214 V276 M182 268 L190 278 L198 268" aria-hidden="true" />
 
-      {/* "You" marker */}
-      <g className="sl-you" style={{ transform: `translateY(${markerY}px)` }} aria-hidden="true">
-        <rect
-          x="171"
-          y="-11"
-          width="38"
-          height="22"
-          rx="11"
-          fill="white"
-          stroke="var(--ink)"
-          strokeWidth="1.5"
-        />
-        <text
-          x="190"
-          y="4"
-          textAnchor="middle"
-          fill="var(--ink)"
-          style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600 }}
-        >
-          you
-        </text>
+      {/* "You": the mascot. Stands on the ground at L0, sits on the current rung otherwise. */}
+      <g
+        className={`sl-you${st.you === 0 ? "" : " mascot-blink"}`}
+        style={{ transform: `translate(${seatDx}px, ${seatY}px)` }}
+        aria-hidden="true"
+      >
+        <g transform={`translate(${190 - (MASCOT_W * MASCOT_SCALE) / 2} ${-MASCOT_SEAT_Y * MASCOT_SCALE}) scale(${MASCOT_SCALE})`}>
+          <MascotShape book pose={st.you === 0 ? "stand" : "sit"} />
+        </g>
       </g>
     </svg>
   );
