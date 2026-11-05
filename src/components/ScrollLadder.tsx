@@ -214,35 +214,38 @@ function DescentBlock({ step }: { step: number }) {
     <article
       id="level-descent"
       data-step={step}
-      className="flex flex-col gap-5 p-6 sm:p-10 text-white min-[980px]:min-h-[62vh] scroll-mt-28"
-      style={{ background: "var(--ink)" }}
+      className="flex flex-col gap-5 p-6 sm:p-10 min-[980px]:min-h-[62vh] scroll-mt-28"
+      style={{ background: "#FFF8F5", boxShadow: "inset 0 0 0 1px #F4DDD3" }}
     >
-      <div className="flex items-center gap-3 font-mono text-[13px] font-medium" style={{ color: "#B9B6C6" }}>
+      <div className="flex items-center gap-3 font-mono text-[13px] font-medium text-muted-foreground">
         <span
           className="inline-grid h-6 min-w-7 place-items-center px-1.5 text-xs font-semibold text-white"
-          style={{ background: "#E2552D" }}
+          style={{ background: "#D9643F" }}
         >
           ↓
         </span>
         The descent
       </div>
-      <h3 className="font-display text-[2.25rem] sm:text-[3.25rem] leading-none tracking-[-0.03em] text-white">
+      <h3 className="font-display text-[1.75rem] sm:text-[2.4rem] leading-[1.08] tracking-[-0.02em] text-ink">
         Treat the descent as the win.
       </h3>
-      <figure className="p-4" style={{ background: "rgba(255,255,255,0.06)" }}>
-        <blockquote className="font-display text-[19px] leading-snug">
+      <figure className="border-l-2 bg-white px-4 py-3" style={{ borderColor: "#E9B8A6" }}>
+        <blockquote className="font-display text-[19px] leading-snug text-ink">
           “Honestly the matching is fine. What kills me is chasing the clients for the
           remittance slips.”
         </blockquote>
-        <figcaption className="mt-1.5 font-mono text-[11px]" style={{ color: "#B9B6C6" }}>
+        <figcaption className="mt-1.5 font-mono text-[11px] text-muted-foreground">
           Interview #031 · during an L3 experiment · contradicts the L2 wedge
         </figcaption>
       </figure>
-      <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed" style={{ color: "#CFCCDA" }}>
+      <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed text-muted-foreground">
         New evidence breaks an earlier level, so you step back down to Jobs and re-rank. Going
         back because the evidence sent you there is the framework working.
       </p>
-      <p className="mt-auto font-mono text-[13px] font-medium" style={{ color: "#FFB49A" }}>
+      <p
+        className="mt-auto border-t-[1.5px] pt-3.5 font-display text-[19px] italic"
+        style={{ borderColor: "var(--ink)", color: "#A9431F" }}
+      >
         You just saved a quarter of building the wrong thing.
       </p>
     </article>
