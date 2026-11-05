@@ -229,13 +229,13 @@ function DescentBlock({ step }: { step: number }) {
       <h3 className="font-display text-[1.75rem] sm:text-[2.4rem] leading-[1.08] tracking-[-0.02em] text-ink">
         Treat the descent as the win.
       </h3>
-      <figure className="border-l-2 bg-white px-4 py-3" style={{ borderColor: "#E8B5C9" }}>
-        <blockquote className="font-display text-[19px] leading-snug text-ink">
+      <figure className="max-w-[620px]">
+        <blockquote className="font-display text-[21px] sm:text-[23px] leading-snug text-ink">
           “Honestly the matching is fine. What kills me is chasing the clients for the
           remittance slips.”
         </blockquote>
-        <figcaption className="mt-1.5 font-mono text-[11px] text-muted-foreground">
-          Interview #031 · during an L3 experiment · contradicts the L2 wedge
+        <figcaption className="mt-2 text-sm text-muted-foreground">
+          — Solo bookkeeper, interview #031, midway through an L3 experiment
         </figcaption>
       </figure>
       <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed text-muted-foreground">
