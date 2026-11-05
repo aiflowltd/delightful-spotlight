@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { normalizeFrom } from "@/lib/form-helpers";
 
 // Lead capture for the /for-programs "Request a demo" form.
 //
@@ -103,7 +104,7 @@ export const submitLead = createServerFn({ method: "POST" })
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.LEAD_FROM_EMAIL || DEFAULT_FROM,
+        from: normalizeFrom(process.env.LEAD_FROM_EMAIL, DEFAULT_FROM),
         to,
         reply_to: lead.email,
         subject: `Demo request: ${lead.name} (${lead.organization})`,
