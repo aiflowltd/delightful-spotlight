@@ -41,6 +41,7 @@
 
   --font-display: "Fraunces", "Times New Roman", Georgia, serif;
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
@@ -84,6 +85,8 @@
     border-color: var(--color-border);
   }
   html {
+    /* Keep jump-link targets clear of the sticky header. */
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -98,6 +101,21 @@
     font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--color-ink);
+  }
+  /* Everything clickable gets a pointer (Tailwind v4 no longer does this for buttons). */
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
   }
   ::selection {
     background: var(--violet);
@@ -134,4 +152,237 @@
   .prose-editorial p + p {
     margin-top: 1.1rem;
   }
+}
+
+/* Scroll ladder ("A ladder, not a checklist") */
+.scroll-ladder .sl-heading {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 17px;
+}
+.scroll-ladder .sl-ground-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  fill: var(--muted-foreground);
+}
+.scroll-ladder .sl-label {
+  font-weight: 500;
+  font-size: 17px;
+  fill: var(--ink);
+  transition: fill 0.4s;
+}
+.scroll-ladder .sl-ship {
+  font-style: italic;
+}
+.scroll-ladder .sl-bar {
+  transition: fill 0.4s, stroke 0.4s;
+}
+.scroll-ladder .sl-rung,
+.scroll-ladder .sl-ground {
+  cursor: pointer;
+  outline: none;
+}
+.scroll-ladder .sl-focus {
+  fill: none;
+  stroke: var(--violet);
+  stroke-width: 2.5;
+  opacity: 0;
+}
+.scroll-ladder .sl-rung:focus-visible .sl-focus,
+.scroll-ladder .sl-ground:focus-visible .sl-focus {
+  opacity: 1;
+}
+.scroll-ladder .sl-rung.future .sl-bar {
+  fill: white;
+  stroke: #c9c6d3;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+.scroll-ladder .sl-rung.future .sl-label {
+  fill: #a5a2b0;
+}
+.scroll-ladder .sl-rung.carried .sl-bar {
+  fill: var(--c);
+  stroke: var(--c);
+}
+.scroll-ladder .sl-rung.now .sl-bar {
+  fill: var(--c);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+/* Descent: the L3 plank snaps in two and a return path draws down to L2 */
+.scroll-ladder .sl-broken {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.scroll-ladder .sl-piece {
+  fill: #fbe9f0;
+  stroke: #c2185b;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transition: transform 0.55s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.scroll-ladder .sl-piece-l {
+  transform-origin: 0% 50%;
+}
+.scroll-ladder .sl-piece-r {
+  transform-origin: 100% 50%;
+}
+.scroll-ladder .sl-rung.broke .sl-bar {
+  opacity: 0;
+}
+.scroll-ladder .sl-rung.broke .sl-broken {
+  opacity: 1;
+}
+.scroll-ladder .sl-rung.broke .sl-piece-l {
+  transform: rotate(9deg);
+}
+.scroll-ladder .sl-rung.broke .sl-piece-r {
+  transform: rotate(-9deg);
+}
+.scroll-ladder .sl-rung.broke .sl-label {
+  fill: #a3174a;
+}
+.scroll-ladder .sl-return {
+  /* Leaving the descent: the whole arrow fades out as one */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.scroll-ladder .sl-return path {
+  fill: none;
+  stroke: #c2185b;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.scroll-ladder .sl-return-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  /* reset only after the fade-out has finished */
+  transition: stroke-dashoffset 0s linear 0.2s;
+}
+.scroll-ladder .sl-return-head {
+  opacity: 0;
+  transition: opacity 0s linear 0.2s;
+}
+/* Entering the descent: line draws, then the tip appears */
+.scroll-ladder.desc .sl-return {
+  opacity: 1;
+  transition: opacity 0s;
+}
+.scroll-ladder.desc .sl-return-line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.6s ease 0.25s;
+}
+.scroll-ladder.desc .sl-return-head {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.75s;
+}
+.scroll-ladder .sl-you {
+  transition: transform 0.6s cubic-bezier(0.5, 0, 0.2, 1);
+  filter: drop-shadow(0 1px 2px rgb(21 19 29 / 0.18));
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-ladder .sl-bar,
+  .scroll-ladder .sl-label,
+  .scroll-ladder .sl-piece,
+  .scroll-ladder .sl-broken,
+  .scroll-ladder .sl-return,
+  .scroll-ladder .sl-return-line,
+  .scroll-ladder .sl-return-head,
+  .scroll-ladder .sl-you {
+    transition: none;
+  }
+}
+
+/* Scroll ladder: on desktop the whole section pins under the nav while the page scrolls
+   through the steps; one card shows at a time. */
+@media (min-width: 980px) {
+  .sl-outer {
+    height: calc(100vh - 72px + (var(--sl-steps) - 1) * var(--sl-step-vh));
+  }
+  .sl-stage {
+    position: sticky;
+    top: 72px;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sl-cards {
+    height: clamp(280px, calc(100vh - 430px), 470px);
+  }
+  .sl-card {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(calc(-50% + 18px));
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease,
+      visibility 0s linear 0.45s;
+  }
+  .sl-card.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(-50%);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease,
+      visibility 0s;
+  }
+}
+@media (min-width: 980px) and (prefers-reduced-motion: reduce) {
+  .sl-card,
+  .sl-card.is-active {
+    transition: none;
+  }
+}
+/* "The hard part has moved": the judgment line draws in right-to-left, holds, fades, repeats */
+.hard-part .hp-line {
+  clip-path: inset(0 0 0 100%);
+}
+.hard-part .hp-label {
+  opacity: 0;
+}
+.hard-part.is-live .hp-line {
+  animation: hp-draw 5.5s ease-in-out infinite;
+}
+.hard-part.is-live .hp-label {
+  animation: hp-label 5.5s ease-in-out infinite;
+}
+@keyframes hp-draw {
+  0% { clip-path: inset(0 0 0 100%); opacity: 1; }
+  18% { clip-path: inset(0 0 0 0); opacity: 1; }
+  82% { clip-path: inset(0 0 0 0); opacity: 1; }
+  95% { clip-path: inset(0 0 0 0); opacity: 0; }
+  100% { clip-path: inset(0 0 0 100%); opacity: 0; }
+}
+@keyframes hp-label {
+  0%, 14% { opacity: 0; }
+  24% { opacity: 1; }
+  82% { opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hard-part .hp-line,
+  .hard-part.is-live .hp-line {
+    animation: none;
+    clip-path: none;
+  }
+  .hard-part .hp-label,
+  .hard-part.is-live .hp-label {
+    animation: none;
+    opacity: 1;
+  }
+}
+/* Continuous climb: the scroll handler moves the "you" marker every frame, so no transition. */
+.scroll-ladder .sl-you.is-continuous {
+  transition: none;
 }
