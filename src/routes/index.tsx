@@ -3,6 +3,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 import { HeroLadder } from "@/components/HeroLadder";
 import { CanonShelf } from "@/components/CanonShelf";
+import { DrmCards } from "@/components/DrmCards";
 import { LadderExplorer } from "@/components/LadderExplorer";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
@@ -233,57 +234,57 @@ function StructuralIdeas() {
 function DRMSection() {
   return (
     <section id="drm" className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={
-            <>
-              Every modern company has a CRM. Every modern startup needs a{" "}
-              <span style={{ color: "var(--violet)" }}>DRM</span>.
-            </>
-          }
-        />
-
-        <div className="mt-12 grid lg:grid-cols-[1fr_1.1fr] gap-14 items-start">
-          <div className="prose-editorial max-w-xl">
-            <p>
-              The Discovery Ladder is only as auditable as the evidence behind it. The
-              DRM is where that evidence lives. Verbatim quotes, not summaries.
-              Behavior, not interpretation. Pain Scale classifications. Disqualification
-              patterns. ICP tags.
-            </p>
-            <p>
-              Without a DRM, level claims are founder narration. With one, they're
-              evidence.
-            </p>
+      <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-12 items-center">
+        <div>
+          <div className="flex items-center gap-3 font-mono text-xs sm:text-[0.8rem] text-ink">
+            <span className="px-1.5 py-0.5 font-medium text-white" style={{ background: "var(--violet)" }}>
+              DRM
+            </span>
+            Discovery Records Manager
           </div>
 
-          <div className="grid grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-            <div className="bg-background p-6">
-              <div className="chip" style={{ color: "var(--teal)" }}>
-                <span className="chip-dot" /> What goes in
-              </div>
-              <ul className="mt-4 space-y-2 text-[0.95rem] text-ink">
-                <li>· Verbatim customer quotes</li>
-                <li>· Observed behaviors, not opinions</li>
-                <li>· Pain Scale scoring per interview</li>
-                <li>· ICP tags & disqualification notes</li>
-                <li>· Source, date, channel of contact</li>
-              </ul>
-            </div>
-            <div className="bg-background p-6">
-              <div className="chip" style={{ color: "var(--violet)" }}>
-                <span className="chip-dot" /> What comes out
-              </div>
-              <ul className="mt-4 space-y-2 text-[0.95rem] text-ink">
-                <li>· Defensible Level claims</li>
-                <li>· A sharper ICP, week by week</li>
-                <li>· Patterns instead of anecdotes</li>
-                <li>· Evidence your investors can audit</li>
-                <li>· A team memory that survives turnover</li>
-              </ul>
-            </div>
+          <h2 className="mt-6 font-display text-[2.5rem] sm:text-[3.25rem] leading-[1.02] tracking-[-0.03em]">
+            Every company has a CRM. Every startup needs a DRM.
+          </h2>
+
+          <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
+            The canonical ledger of what you've learned. Two rules: quotes, not summaries,
+            and behavior, not interpretation. Without it, every level claim is founder
+            narration.
+          </p>
+
+          <div className="mt-10 grid sm:grid-cols-3 border-2" style={{ borderColor: "var(--ink)" }}>
+            {[
+              ["Holds", "Evidence", "Verbatim quotes, observed behavior, pain scores."],
+              ["Helps", "AI", "Reads transcripts, applies the rubrics, surfaces candidates."],
+              ["Decides", "You", "AI can tell you what you talked about. You decide what it means."],
+            ].map(([kicker, title, body], i) => {
+              const dark = i === 2;
+              return (
+                <div
+                  key={title}
+                  className={`p-5 ${i < 2 ? "border-b sm:border-b-0 sm:border-r" : ""}`}
+                  style={{
+                    borderColor: "var(--rule)",
+                    background: dark ? "var(--ink)" : undefined,
+                  }}
+                >
+                  <div className={`font-mono text-xs ${dark ? "text-white/70" : "text-muted-foreground"}`}>
+                    {kicker}
+                  </div>
+                  <div className={`mt-2 font-display text-2xl ${dark ? "text-white" : "text-ink"}`}>
+                    {title}
+                  </div>
+                  <p className={`mt-2 text-sm leading-relaxed ${dark ? "text-white/80" : "text-muted-foreground"}`}>
+                    {body}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
+
+        <DrmCards />
       </div>
     </section>
   );
