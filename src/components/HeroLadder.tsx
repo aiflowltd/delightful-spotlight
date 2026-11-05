@@ -54,8 +54,9 @@ export function HeroLadder() {
 
       {/* L0 ground line */}
       <div className="mx-auto h-[3px] w-[85%]" style={{ background: RAIL }} />
-      <figcaption className="mt-5 text-center font-mono text-xs text-muted-foreground">
-        L0 · ICP: the ground it stands on
+      <figcaption className="mt-4 text-center font-display text-base sm:text-lg leading-none">
+        <span className="font-medium text-ink">L0 · ICP</span>
+        <span className="italic text-muted-foreground"> — the ground it stands on</span>
       </figcaption>
     </figure>
   );
