@@ -61,7 +61,7 @@ function LeaningLadder() {
   return (
     <svg
       viewBox="0 0 120 410"
-      className="ml-3 sm:ml-10 h-[254px] sm:h-[410px] w-auto shrink-0 overflow-visible"
+      className="-ml-[14px] sm:-ml-[22px] h-[254px] sm:h-[410px] w-auto shrink-0 overflow-visible -scale-x-100"
       aria-hidden
     >
       {steps.map((t, i) => {
