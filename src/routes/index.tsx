@@ -4,7 +4,7 @@ import { SocialLinks } from "@/components/SocialLinks";
 import { HeroLadder } from "@/components/HeroLadder";
 import { CanonShelf } from "@/components/CanonShelf";
 import { DrmCards } from "@/components/DrmCards";
-import { LadderExplorer } from "@/components/LadderExplorer";
+import { ScrollLadder } from "@/components/ScrollLadder";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
 export const Route = createFileRoute("/")({
@@ -176,7 +176,7 @@ function FrameworkSection() {
         </p>
 
         <div className="mt-12">
-          <LadderExplorer />
+          <ScrollLadder />
         </div>
       </div>
     </section>
