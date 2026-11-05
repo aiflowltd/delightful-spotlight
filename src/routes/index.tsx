@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
-import { Ladder } from "@/components/Ladder";
+import { HeroLadder } from "@/components/HeroLadder";
 import { LadderExplorer } from "@/components/LadderExplorer";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap",
       },
     ],
   }),
@@ -44,40 +44,72 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 grid lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
+      <div className="mx-auto max-w-7xl px-6 pt-20 pb-24 grid lg:grid-cols-[1.05fr_1fr] gap-16 items-center">
         <div>
-          <h1 className="font-display text-[2.6rem] sm:text-6xl leading-[1.02] tracking-tight">
-            The customer discovery framework for the{" "}
-            <span style={{ color: "var(--violet)" }}>age of AI</span>.
+          <div className="flex items-center gap-3 font-mono text-[0.8rem] sm:text-sm text-ink">
+            <span className="px-2 py-1 text-white" style={{ background: "var(--violet)" }}>
+              v0.9
+            </span>
+            Customer discovery for the age of AI
+          </div>
+
+          <h1 className="mt-10 font-display font-semibold text-[3.75rem] sm:text-[6.5rem] leading-[0.92] tracking-[-0.05em]">
+            Happy ears
+            <br />
+            waste{" "}
+            <span className="relative inline-block">
+              years.
+              <span
+                aria-hidden
+                className="absolute left-0 right-0 -bottom-3 sm:-bottom-5 h-[5px] sm:h-[7px]"
+                style={{ background: "var(--violet)" }}
+              />
+              <span
+                aria-hidden
+                className="absolute left-0 -bottom-4 sm:-bottom-6 h-3.5 sm:h-5 w-[2px] sm:w-[3px]"
+                style={{ background: "var(--ink)" }}
+              />
+              <span
+                aria-hidden
+                className="absolute right-0 -bottom-4 sm:-bottom-6 h-3.5 sm:h-5 w-[2px] sm:w-[3px]"
+                style={{ background: "var(--ink)" }}
+              />
+            </span>
           </h1>
-          <p className="mt-7 text-lg leading-relaxed text-muted-foreground max-w-xl">
-            A four-level framework that pairs every stage of customer evidence with a
-            build artifact — so founders never have to choose between doing discovery
-            and making progress.
+
+          <p className="mt-12 text-lg sm:text-[1.35rem] leading-relaxed text-muted-foreground max-w-xl">
+            Building is cheap now. The expensive mistake is spending a year on something
+            nobody wants because you heard what you wanted to hear.{" "}
+            <span className="font-medium text-ink">
+              The Discovery Ladder gives discovery a sequence:
+            </span>{" "}
+            four levels, each testing a riskier assumption, each shipping a named artifact.
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+
+          <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
               href="#get"
-              className="inline-flex items-center px-5 py-3 rounded-sm text-white text-sm font-medium"
+              className="inline-flex items-center px-6 py-3.5 text-white text-base sm:text-lg font-medium transition-opacity hover:opacity-90"
               style={{ background: "var(--violet)" }}
             >
               Get the framework →
             </a>
             <a
-              href="#sprint"
-              className="inline-flex items-center px-5 py-3 rounded-sm border text-sm font-medium"
-              style={{ borderColor: "var(--rule)" }}
+              href="#framework"
+              className="inline-flex items-center px-6 py-3.5 border-2 text-base sm:text-lg font-medium text-ink transition-colors hover:bg-[var(--violet-tint)]"
+              style={{ borderColor: "var(--ink)" }}
             >
-              Apply to the Startup Sprint
+              Climb it ↓
             </a>
           </div>
-          <div className="mt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+
+          <div className="mt-10 font-mono text-xs sm:text-sm text-muted-foreground">
             By Darren Yee · NYU Entrepreneurial Institute
           </div>
         </div>
 
-        <div className="lg:pl-8">
-          <Ladder />
+        <div className="lg:pl-4">
+          <HeroLadder />
         </div>
       </div>
     </section>

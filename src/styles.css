@@ -41,6 +41,7 @@
 
   --font-display: "Fraunces", "Times New Roman", Georgia, serif;
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
