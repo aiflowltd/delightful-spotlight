@@ -44,10 +44,10 @@ const records: DrmRecord[] = [
   },
 ];
 
-const tones: Record<Tone, { bg: string; border: string; text: string }> = {
-  rose: { bg: "#FFF1F2", border: "#FECDD3", text: "#BE123C" },
-  green: { bg: "#ECFDF5", border: "#A7F3D0", text: "#047857" },
-  amber: { bg: "#FFFBEB", border: "#FDE68A", text: "#B45309" },
+const tones: Record<Tone, { text: string }> = {
+  rose: { text: "#B4233C" },
+  green: { text: "#047857" },
+  amber: { text: "#92400E" },
 };
 
 /** Card placement on large screens: [top, left, rotation]. */
@@ -78,22 +78,18 @@ function RecordCard({ r, className = "" }: { r: DrmRecord; className?: string })
         <span className="font-mono text-[11px] text-slate-500">DRM · {r.id}</span>
         <span
           className="rounded-full px-2 py-0.5 text-[11px] font-medium"
-          style={{ background: "#EEF2FF", color: "#4338CA" }}
+          style={{ background: "#F1F5F9", color: "#475569" }}
         >
           {r.segment}
         </span>
       </header>
 
-      <p className="mt-3 text-[15px] leading-relaxed text-slate-800">
-        <span className="rounded-sm px-0.5" style={{ background: "#FEF3C7", boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>
-          “{r.quote}”
-        </span>
-      </p>
+      <p className="mt-3 font-display text-[17px] leading-snug text-ink">“{r.quote}”</p>
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         <div
           className="rounded-lg border px-2.5 py-2"
-          style={{ background: tone.bg, borderColor: tone.border }}
+          style={{ borderColor: "#E2E8F0" }}
         >
           <div className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-500">
             Pain scale
@@ -118,7 +114,7 @@ function RecordCard({ r, className = "" }: { r: DrmRecord; className?: string })
       {r.flag && (
         <div
           className="mt-2 flex items-start gap-1.5 rounded-md px-2.5 py-1.5 text-[12px] leading-snug"
-          style={{ background: "#FFF7ED", color: "#C2410C" }}
+          style={{ background: "#F8FAFC", color: "#9A3412" }}
         >
           <span aria-hidden>⚑</span>
           <span>{r.flag}</span>
