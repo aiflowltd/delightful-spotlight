@@ -13,51 +13,56 @@ type Level = {
   question: string;
   body: ReactNode;
   discover: string;
-  ship: string;
+  ship: { verb: string; name: string; note: string };
   color: string;
 };
 
-// Climbing order: L0 → L4. Index === data-step.
+// Same palette as the hero ladder. Climbing order: L0 → L4. Index === data-step.
 const levels: Level[] = [
   {
     id: "l0",
     short: "L0",
     label: "Level 0",
-    title: "Ideal Customer Profile",
-    question: "Who actually has the problem?",
+    title: "Ideal Customer Profile · the ground",
+    question: "Organizations don't buy things. People do.",
     body: (
       <>
-        The foundation under every rung. Your ICP is a working answer, refined with every
-        interview and reconfirmed at each level above it — the customer you validated in March
-        may not be the customer in June.
+        The ladder stands on a specific person, not a market. Inside every company-wide problem
+        that nobody owns, find the one human with agency over a slice of the workflow and a
+        hair-on-fire relationship to it. The ICP is never finished; it gets sharper every week.
       </>
     ),
-    discover: "Who has the problem",
-    ship: "Continuously refined",
-    color: "oklch(0.93 0.005 280)",
+    discover: "ICP",
+    ship: { verb: "Refine", name: "Continuously", note: "Disqualify people outside it in two minutes." },
+    color: "#ECEBF1",
   },
   {
     id: "l1",
     short: "L1",
     label: "Level 1",
     title: "Problem Discovery",
-    question: "Is the pain real?",
+    question: "Is there a painful problem, and who has it?",
     body: (
       <>
         Score the customer's relationship to the problem with the <strong>Pain Scale</strong>.
-        Target zone: <strong>Hair on Fire</strong> and Incremental Improvement.
+        Target zone: <strong>Hair on Fire</strong> and Incremental Improvement. Ask about past
+        behavior, not future hypotheticals; people say yes to hypotheticals to be nice.
       </>
     ),
     discover: "Problem",
-    ship: "Solution concept",
-    color: "var(--red)",
+    ship: {
+      verb: "Ships",
+      name: "Customer Persona",
+      note: "Evidence-backed: quotes and behavior, not a guess.",
+    },
+    color: "#3B1460",
   },
   {
     id: "l2",
     short: "L2",
     label: "Level 2",
     title: "Jobs Discovery",
-    question: "Of all the things they struggle with, which specific job is worth building for?",
+    question: "Of everything they struggle with, which job is worth building for?",
     body: (
       <>
         Map the customer's current way of getting the job done. Identify the wedge — where pain
@@ -65,38 +70,44 @@ const levels: Level[] = [
       </>
     ),
     discover: "Jobs",
-    ship: "MVP Scope, constrained",
-    color: "var(--amber)",
+    ship: { verb: "Ships", name: "MVP Scope", note: "One page: the wedge job, and the say-no list." },
+    color: "#3D43A4",
   },
   {
     id: "l3",
     short: "L3",
     label: "Level 3",
     title: "Value Discovery",
-    question: "Will they fire their old way for your new way?",
+    question: "Does it deliver value, and will they fire their old way to get it?",
     body: (
       <>
-        Run probes that test value, not usability. <strong>Skin in the Game</strong> is the bar.
+        Retire the word MVP. Run a minimum viable experiment: one hypothesis, a customer in front
+        of it, and a kill criterion written before you build. <strong>Skin in the Game</strong>{" "}
+        is the bar.
       </>
     ),
     discover: "Value",
-    ship: "Product V1",
-    color: "var(--teal)",
+    ship: { verb: "Ships", name: "Experiments", note: "Disposable code, durable learning." },
+    color: "#1F74BE",
   },
   {
     id: "l4",
     short: "L4",
     label: "Level 4",
     title: "GTM Discovery",
-    question: "Can you reach them, repeatably?",
-    body: <>De-risk the path to customer. Test channel, motion, unit economics.</>,
+    question: "Can you reach them, repeatably and affordably?",
+    body: (
+      <>
+        GTM is advanced discovery: the same muscle as Level 1, pointed at higher-stakes
+        assumptions. It branches by industry and often runs in parallel with Level 3.
+      </>
+    ),
     discover: "GTM",
-    ship: "Growth Engine",
-    color: "var(--green)",
+    ship: { verb: "Ships", name: "Growth Engine", note: "A path to customers you can repeat." },
+    color: "#18A7CC",
   },
 ];
 
-/** Rung centre y in the SVG for L1..L4; the ground (step 0) is 470. */
 const RUNG_Y: Record<number, number> = { 1: 392, 2: 296, 3: 200, 4: 104 };
 const GROUND_Y = 470;
 
@@ -144,16 +155,9 @@ export function ScrollLadder() {
         </p>
       </aside>
 
-      <div ref={blocksRef} className="flex flex-col gap-6 min-[980px]:gap-0 min-[980px]:pb-[30vh]">
+      <div ref={blocksRef} className="flex flex-col gap-5 min-[980px]:gap-7 min-[980px]:pb-[30vh]">
         {levels.map((l, i) => (
-          <div
-            key={l.id}
-            id={`level-${l.id}`}
-            data-step={i}
-            className="min-[980px]:min-h-[62vh] min-[980px]:flex min-[980px]:flex-col min-[980px]:justify-center"
-          >
-            <LevelBlock level={l} index={i} />
-          </div>
+          <LevelBlock key={l.id} level={l} index={i} />
         ))}
       </div>
     </div>
@@ -161,31 +165,42 @@ export function ScrollLadder() {
 }
 
 function LevelBlock({ level, index }: { level: Level; index: number }) {
+  const chipText = index === 0 ? "var(--ink)" : "white";
   return (
-    <article className="relative rounded-sm border p-6 sm:p-10" style={{ borderColor: "var(--rule)" }}>
-      <div
-        className="absolute left-0 top-0 h-1 w-full rounded-t-sm"
-        style={{ background: level.color }}
-        aria-hidden="true"
-      />
-      <div className="text-sm text-muted-foreground">
-        {level.label}
-        {index > 0 ? ` of ${levels.length - 1}` : " · the foundation"}
+    <article
+      id={`level-${level.id}`}
+      data-step={index}
+      className="flex flex-col gap-5 bg-white p-6 sm:p-10 min-[980px]:min-h-[62vh] scroll-mt-28"
+    >
+      <div className="flex items-center gap-3 font-mono text-[13px] font-medium text-muted-foreground">
+        <span
+          className="inline-grid h-6 min-w-7 place-items-center px-1.5 text-xs font-semibold"
+          style={{
+            background: level.color,
+            color: chipText,
+            boxShadow: index === 0 ? "inset 0 0 0 1px var(--rule)" : undefined,
+          }}
+        >
+          {level.short}
+        </span>
+        {level.title}
       </div>
-      <h3 className="mt-3 font-display text-3xl sm:text-4xl leading-tight">{level.title}</h3>
-      <p className="mt-3 text-lg sm:text-xl italic text-muted-foreground">{level.question}</p>
-      <p className="mt-6 text-[1.02rem] leading-relaxed text-ink max-w-2xl">{level.body}</p>
-
-      <dl className="mt-8 grid sm:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-        <div className="bg-background py-4 sm:pr-6">
-          <dt className="text-xs text-muted-foreground">Discover</dt>
-          <dd className="mt-1 font-display text-xl">{level.discover}</dd>
-        </div>
-        <div className="bg-background py-4 sm:pl-6">
-          <dt className="text-xs text-muted-foreground">Ship</dt>
-          <dd className="mt-1 font-display text-xl">{level.ship}</dd>
-        </div>
-      </dl>
+      <h3 className="font-display text-[1.75rem] sm:text-[2.4rem] leading-[1.08] tracking-[-0.02em] text-ink">
+        {level.question}
+      </h3>
+      <p className="max-w-[620px] text-base sm:text-[17px] leading-relaxed text-muted-foreground">
+        {level.body}
+      </p>
+      <div
+        className="mt-auto flex flex-wrap items-baseline gap-x-3.5 gap-y-1 border-t-[1.5px] pt-3.5"
+        style={{ borderColor: "var(--ink)" }}
+      >
+        <span className="font-mono text-xs" style={{ color: "var(--violet)" }}>
+          {level.ship.verb}
+        </span>
+        <b className="font-display text-[22px] font-medium italic text-ink">{level.ship.name}</b>
+        <span className="text-[15px] text-muted-foreground">{level.ship.note}</span>
+      </div>
     </article>
   );
 }
@@ -231,7 +246,7 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
             style={{ ["--c" as string]: l.color }}
             role="button"
             tabIndex={0}
-            aria-label={`${l.label}: ${l.title}`}
+            aria-label={`Go to ${l.label}: ${l.title}`}
             aria-current={state === "now" ? "step" : undefined}
             onClick={() => onSelect(i)}
             onKeyDown={onKey(i)}
@@ -243,7 +258,7 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
               {l.discover}
             </text>
             <text x="254" y={y + 6} className="sl-label sl-ship">
-              {l.ship}
+              {l.ship.name}
             </text>
           </g>
         );

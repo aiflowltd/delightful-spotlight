@@ -164,15 +164,12 @@ function ProblemSection() {
 
 function FrameworkSection() {
   return (
-    <section id="framework" className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <SectionHeader
-          title={<>A ladder, not a checklist.</>}
-        />
+    <section id="framework" className="border-b" style={{ borderColor: "var(--rule)", background: "#F5F4F8" }}>
+      <div className="mx-auto max-w-6xl px-6 pt-24 pb-10">
+        <SectionHeader title={<>A ladder, not a checklist.</>} />
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          Four levels, anchored by a foundational Level 0. Each level has a discovery
-          objective and a corresponding ship artifact. Each level earns the right to
-          ship the next.
+          The levels are additive. You don't leave a level behind; you carry it. A Level 3
+          conversation opens by reconfirming Levels 1 and 2. Scroll to climb.
         </p>
 
         <div className="mt-12">
