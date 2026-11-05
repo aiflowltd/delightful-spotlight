@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteNav } from "@/components/SiteNav";
+import { SocialLinks } from "@/components/SocialLinks";
 import { Ladder } from "@/components/Ladder";
+import { LadderExplorer } from "@/components/LadderExplorer";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 
 export const Route = createFileRoute("/")({
@@ -38,52 +41,12 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-function Nav() {
-  return (
-    <header className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div
-            className="h-7 w-7 rounded-sm grid place-items-center text-white font-display text-sm"
-            style={{ background: "var(--violet)" }}
-          >
-            DL
-          </div>
-          <div className="leading-tight">
-            <div className="font-display text-base">The Discovery Ladder</div>
-            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-              NYU Entrepreneurial Institute
-            </div>
-          </div>
-        </div>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <a href="#framework" className="hover:text-foreground transition-colors">Framework</a>
-          <a href="#drm" className="hover:text-foreground transition-colors">DRM</a>
-          <a href="#origin" className="hover:text-foreground transition-colors">Where it comes from</a>
-          <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
-          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
-          <a
-            href="#get"
-            className="px-3 py-1.5 rounded-sm text-white text-sm"
-            style={{ background: "var(--violet)" }}
-          >
-            Get the framework
-          </a>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
 function Hero() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 grid lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
         <div>
-          <div className="chip">
-            <span className="chip-dot" /> A framework, in active development
-          </div>
-          <h1 className="mt-6 font-display text-[2.6rem] sm:text-6xl leading-[1.02] tracking-tight">
+          <h1 className="font-display text-[2.6rem] sm:text-6xl leading-[1.02] tracking-tight">
             The customer discovery framework for the{" "}
             <span style={{ color: "var(--violet)" }}>age of AI</span>.
           </h1>
@@ -109,7 +72,7 @@ function Hero() {
             </a>
           </div>
           <div className="mt-8 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            By Darren Yee & Frank Rimalovski · NYU Entrepreneurial Institute
+            By Darren Yee · NYU Entrepreneurial Institute
           </div>
         </div>
 
@@ -122,18 +85,13 @@ function Hero() {
 }
 
 function SectionHeader({
-  kicker,
   title,
 }: {
-  kicker: string;
   title: React.ReactNode;
 }) {
   return (
     <div className="max-w-3xl">
-      <div className="chip">
-        <span className="chip-dot" /> {kicker}
-      </div>
-      <h2 className="mt-4 font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+      <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
         {title}
       </h2>
     </div>
@@ -145,7 +103,6 @@ function ProblemSection() {
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          kicker="Why this framework, why now"
           title={<>The hard part of startups has moved.</>}
         />
         <div className="mt-12 grid lg:grid-cols-[1.05fr_1fr] gap-14 items-start">
@@ -178,63 +135,11 @@ function ProblemSection() {
   );
 }
 
-const levelCards = [
-  {
-    level: "Level 1",
-    title: "Problem Discovery",
-    q: "Is the pain real?",
-    body: (
-      <>
-        Score the customer's relationship to the problem with the{" "}
-        <strong>Pain Scale</strong>. Target zone: <strong>Hair on Fire</strong> and
-        Incremental Improvement.
-      </>
-    ),
-    ship: "Solution concept",
-    color: "var(--red)",
-  },
-  {
-    level: "Level 2",
-    title: "Friction Discovery",
-    q: "Where exactly does their workflow break?",
-    body: (
-      <>
-        Map the customer's current way of getting the job done. Identify the wedge —
-        where pain is real <em>and</em> current solutions are weak.
-      </>
-    ),
-    ship: "MVP Scope, constrained",
-    color: "var(--amber)",
-  },
-  {
-    level: "Level 3",
-    title: "Value Discovery",
-    q: "Will they fire their old way for your new way?",
-    body: (
-      <>
-        Run probes that test value, not usability. <strong>Skin in the Game</strong> is
-        the bar.
-      </>
-    ),
-    ship: "Product V1",
-    color: "var(--teal)",
-  },
-  {
-    level: "Level 4",
-    title: "GTM Discovery",
-    q: "Can you reach them, repeatably?",
-    body: <>De-risk the path to customer. Test channel, motion, unit economics.</>,
-    ship: "Growth Engine",
-    color: "var(--green)",
-  },
-];
-
 function FrameworkSection() {
   return (
     <section id="framework" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          kicker="The framework"
           title={<>A ladder, not a checklist.</>}
         />
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
@@ -243,30 +148,8 @@ function FrameworkSection() {
           ship the next.
         </p>
 
-        <div className="mt-16">
-          <Ladder annotated />
-        </div>
-
-        <div className="mt-20 grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
-          {levelCards.map((c) => (
-            <article
-              key={c.level}
-              className="bg-background p-8"
-            >
-              <div className="flex items-baseline justify-between">
-                <div className="chip" style={{ color: c.color }}>
-                  <span className="chip-dot" style={{ background: c.color }} />
-                  {c.level}
-                </div>
-                <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  Ship → {c.ship}
-                </div>
-              </div>
-              <h3 className="mt-4 font-display text-2xl">{c.title}</h3>
-              <p className="mt-1 text-base italic text-muted-foreground">{c.q}</p>
-              <p className="mt-4 text-[0.98rem] leading-relaxed text-ink">{c.body}</p>
-            </article>
-          ))}
+        <div className="mt-12">
+          <LadderExplorer />
         </div>
       </div>
     </section>
@@ -278,7 +161,6 @@ function StructuralIdeas() {
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          kicker="What's different"
           title={<>Two things the Discovery Ladder does differently.</>}
         />
         <div className="mt-14 grid md:grid-cols-2 gap-10">
@@ -327,7 +209,6 @@ function DRMSection() {
     <section id="drm" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          kicker="Discovery Records Management"
           title={
             <>
               Every modern company has a CRM. Every modern startup needs a{" "}
@@ -387,8 +268,7 @@ function WhoFor() {
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <div className="max-w-3xl">
-          <div className="chip"><span className="chip-dot" /> Who it's for</div>
-          <h2 className="mt-4 font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+          <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
             Built for founders already in motion.
           </h2>
           <div className="prose-editorial mt-8 max-w-2xl">
@@ -430,7 +310,6 @@ function Origin() {
     <section id="origin" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24">
         <SectionHeader
-          kicker="Where it comes from"
           title={<>Built on the canon, calibrated for the new bottleneck.</>}
         />
         <div className="mt-10 grid lg:grid-cols-[1.1fr_1fr] gap-14">
@@ -484,47 +363,46 @@ function CTASection() {
       <div className="mx-auto max-w-6xl px-6 py-24 text-white">
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-14 items-end">
           <div>
-            <div
-              className="chip"
-              style={{ color: "white", opacity: 0.85 }}
-            >
-              <span className="chip-dot" style={{ background: "white" }} /> Get the framework
-            </div>
             <h2
-              className="mt-5 font-display text-4xl sm:text-5xl leading-[1.05] tracking-tight"
+              className="font-display text-4xl sm:text-5xl leading-[1.05] tracking-tight"
               style={{ color: "white" }}
             >
               A mirror for the discovery you're already doing.
             </h2>
             <p className="mt-5 max-w-xl text-lg opacity-85">
-              Download the framework overview — the four levels, the ship artifacts,
-              the Pain Scale, and the DRM, in one PDF.
+              Get Darren's essays on the framework — the four levels, the Pain Scale,
+              and the DRM — in your inbox as they're published.
             </p>
           </div>
-          <iframe
-            src="https://darrenyee.substack.com/embed?transparent=1&light=1"
-            width={480}
-            height={150}
-            style={{ border: 0, background: "transparent" }}
-            frameBorder={0}
-            scrolling="no"
-          />
-        </div>
-
-        <div
-          className="mt-14 pt-8 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-6"
-          style={{ borderColor: "rgba(255,255,255,0.18)" }}
-        >
-          <div id="sprint" className="text-sm opacity-85 max-w-md">
-            NYU-affiliated founder? <strong className="text-white">Apply to the Startup Sprint</strong>{" "}
-            — work the Ladder with a cohort and coaches.
-          </div>
-          <a
-            href="#"
-            className="inline-flex items-center px-5 py-3 rounded-sm border border-white/40 text-sm font-medium hover:bg-white/10 transition"
+          {/* Opens Substack's signup page with the email pre-filled; the visitor confirms there. */}
+          <form
+            action="https://darrenyee.substack.com/subscribe"
+            method="get"
+            target="_blank"
+            className="w-full max-w-md"
           >
-            Apply to the Sprint →
-          </a>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <label htmlFor="subscribe-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="subscribe-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="you@startup.com"
+                className="flex-1 min-w-0 rounded-sm bg-white px-4 py-3 text-sm text-[#1a1a1a] placeholder:text-[#8a8a8a] outline-none focus:ring-2 focus:ring-[var(--teal)]"
+              />
+              <button
+                type="submit"
+                className="rounded-sm px-5 py-3 text-sm font-medium transition hover:brightness-95"
+                style={{ background: "var(--teal)", color: "#0a2229" }}
+              >
+                Subscribe
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -536,15 +414,15 @@ function Footer() {
     <footer>
       <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
         <div>
-          Built by <span className="text-ink font-medium">Darren Yee</span> and{" "}
-          <span className="text-ink font-medium">Frank Rimalovski</span> at the NYU
-          Entrepreneurial Institute.
+          © {new Date().getFullYear()} The Discovery Ladder. All rights reserved.
         </div>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap items-center gap-6">
           <Link to="/blog" className="hover:text-foreground">Blog</Link>
           <a href="#" className="hover:text-foreground">Methodology brief</a>
           <a href="#" className="hover:text-foreground">EI program</a>
           <a href="#" className="hover:text-foreground">Contact</a>
+          <span className="hidden sm:block h-4 w-px" style={{ background: "var(--rule)" }} />
+          <SocialLinks />
         </div>
       </div>
     </footer>
@@ -554,7 +432,7 @@ function Footer() {
 function LandingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav />
+      <SiteNav />
       <Hero />
       <ProblemSection />
       <FrameworkSection />

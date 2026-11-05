@@ -5,7 +5,7 @@ interface LadderProps {
 const rungs = [
   { level: "L4", discover: "GTM", ship: "Growth Engine", color: "var(--green)" },
   { level: "L3", discover: "Value", ship: "Product V1", color: "var(--teal)" },
-  { level: "L2", discover: "Friction", ship: "MVP Scope", color: "var(--amber)" },
+  { level: "L2", discover: "Jobs", ship: "MVP Scope", color: "var(--amber)" },
   { level: "L1", discover: "Problem", ship: "Solution", color: "var(--red)" },
 ];
 

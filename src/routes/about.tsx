@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteNav } from "@/components/SiteNav";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -7,7 +9,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Who built the Discovery Ladder, and why — Darren Yee and Frank Rimalovski at the NYU Entrepreneurial Institute.",
+          "Who built the Discovery Ladder, and why — Darren Yee at the NYU Entrepreneurial Institute.",
       },
       { property: "og:title", content: "About — The Discovery Ladder" },
       {
@@ -33,48 +35,6 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-function Nav() {
-  return (
-    <header className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3">
-          <div
-            className="h-7 w-7 rounded-sm grid place-items-center text-white font-display text-sm"
-            style={{ background: "var(--violet)" }}
-          >
-            DL
-          </div>
-          <div className="leading-tight">
-            <div className="font-display text-base">The Discovery Ladder</div>
-            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-              NYU Entrepreneurial Institute
-            </div>
-          </div>
-        </Link>
-        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">
-            Framework
-          </Link>
-          <Link to="/blog" className="hover:text-foreground transition-colors">
-            Blog
-          </Link>
-          <Link to="/about" className="text-foreground transition-colors">
-            About
-          </Link>
-          <Link
-            to="/"
-            hash="get"
-            className="px-3 py-1.5 rounded-sm text-white text-sm"
-            style={{ background: "var(--violet)" }}
-          >
-            Get the framework
-          </Link>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
 type Person = {
   name: string;
   role: string;
@@ -85,7 +45,7 @@ type Person = {
 const people: Person[] = [
   {
     name: "Darren Yee",
-    role: "Co-creator · NYU Entrepreneurial Institute",
+    role: "Creator · NYU Entrepreneurial Institute",
     img: "/darren-yee.jpg",
     bio: (
       <>
@@ -96,31 +56,56 @@ const people: Person[] = [
       </>
     ),
   },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INSTITUTE & PROGRAMS — placeholder content, replace the [bracketed] text.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const institute = {
+  heading: "Where the Ladder gets tested.",
+  intro: [
+    "[One paragraph on the NYU Entrepreneurial Institute: who it serves, what it does, how long it has been running.]",
+    "[One paragraph on how the Discovery Ladder is used across the Institute's programs, and what you have seen it change for founders.]",
+  ],
+};
+
+type Stat = { value: string; label: string };
+
+const stats: Stat[] = [
+  { value: "[00]", label: "[teams through the programs]" },
+  { value: "[00]", label: "[interviews logged in the DRM]" },
+  { value: "[00]", label: "[cohorts run on the Ladder]" },
+];
+
+type Program = { name: string; stage: string; description: string };
+
+const programs: Program[] = [
   {
-    name: "Frank Rimalovski",
-    role: "Co-creator · NYU Entrepreneurial Institute",
-    bio: (
-      <>
-        Frank is co-author of <em>Talking to Humans</em> and a longtime practitioner of customer
-        development. He has spent years teaching founders that the interview, not the demo, is where
-        the learning happens. The Ladder is his attempt to make that discipline survive in a world
-        where building has become almost free.
-      </>
-    ),
+    name: "Bootcamp",
+    stage: "[Stage, e.g. idea → first interviews]",
+    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
+  },
+  {
+    name: "Startup Sprint",
+    stage: "[Stage]",
+    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
+  },
+  {
+    name: "Summer Launchpad",
+    stage: "[Stage]",
+    description: "[Two sentences: who it's for, how long it runs, where the Ladder comes in.]",
   },
 ];
 
 function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav />
+      <SiteNav />
 
       <section className="border-b" style={{ borderColor: "var(--rule)" }}>
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-16">
-          <div className="chip">
-            <span className="chip-dot" /> About
-          </div>
-          <h1 className="mt-6 font-display text-[2.4rem] sm:text-5xl leading-[1.05] tracking-tight max-w-3xl">
+          <h1 className="font-display text-[2.4rem] sm:text-5xl leading-[1.05] tracking-tight max-w-3xl">
             We built the tool we wished we'd had as founders.
           </h1>
           <p className="mt-7 text-lg leading-relaxed text-muted-foreground max-w-2xl">
@@ -134,10 +119,7 @@ function AboutPage() {
       <section className="border-b" style={{ borderColor: "var(--rule)" }}>
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="max-w-3xl">
-            <div className="chip">
-              <span className="chip-dot" /> Why it exists
-            </div>
-            <h2 className="mt-4 font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
               Judgment is the scarce resource now.
             </h2>
             <div className="prose-editorial mt-8 max-w-2xl">
@@ -160,13 +142,51 @@ function AboutPage() {
 
       <section className="border-b" style={{ borderColor: "var(--rule)" }}>
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="chip">
-            <span className="chip-dot" /> The people
+          <div className="max-w-3xl">
+            <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+              {institute.heading}
+            </h2>
+            <div className="prose-editorial mt-8 max-w-2xl">
+              {institute.intro.map((para) => (
+                <p key={para}>{para}</p>
+              ))}
+            </div>
           </div>
-          <h2 className="mt-4 font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
+
+          <dl className="mt-12 grid sm:grid-cols-3 gap-px" style={{ background: "var(--rule)" }}>
+            {stats.map((stat) => (
+              <div key={stat.label} className="bg-background p-6">
+                <dt className="sr-only">{stat.label}</dt>
+                <dd className="font-display text-4xl" style={{ color: "var(--violet)" }}>
+                  {stat.value}
+                </dd>
+                <dd className="mt-2 text-sm text-muted-foreground">{stat.label}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-px grid md:grid-cols-3 gap-px" style={{ background: "var(--rule)" }}>
+            {programs.map((program) => (
+              <article key={program.name} className="bg-background p-6">
+                <h3 className="font-display text-2xl">{program.name}</h3>
+                <div className="mt-1 text-sm" style={{ color: "var(--violet)" }}>
+                  {program.stage}
+                </div>
+                <p className="mt-4 text-[0.98rem] leading-relaxed text-ink">
+                  {program.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b" style={{ borderColor: "var(--rule)" }}>
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <h2 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] tracking-tight">
             Who's behind it.
           </h2>
-          <div className="mt-12 grid md:grid-cols-2 gap-px" style={{ background: "var(--rule)" }}>
+          <div className="mt-12 grid max-w-3xl gap-px" style={{ background: "var(--rule)" }}>
             {people.map((p) => (
               <article key={p.name} className="bg-background p-8">
                 <div className="flex items-center gap-4">
@@ -227,17 +247,17 @@ function AboutPage() {
       <footer>
         <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
           <div>
-            Built by <span className="text-ink font-medium">Darren Yee</span> and{" "}
-            <span className="text-ink font-medium">Frank Rimalovski</span> at the NYU
-            Entrepreneurial Institute.
+            © {new Date().getFullYear()} The Discovery Ladder. All rights reserved.
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <Link to="/" className="hover:text-foreground">
               Home
             </Link>
             <Link to="/about" className="hover:text-foreground">
               About
             </Link>
+            <span className="hidden sm:block h-4 w-px" style={{ background: "var(--rule)" }} />
+            <SocialLinks />
           </div>
         </div>
       </footer>

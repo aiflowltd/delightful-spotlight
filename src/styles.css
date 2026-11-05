@@ -84,6 +84,8 @@
     border-color: var(--color-border);
   }
   html {
+    /* Keep jump-link targets clear of the sticky header. */
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -98,6 +100,21 @@
     font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--color-ink);
+  }
+  /* Everything clickable gets a pointer (Tailwind v4 no longer does this for buttons). */
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
   }
   ::selection {
     background: var(--violet);
