@@ -241,6 +241,7 @@
 }
 .scroll-ladder .sl-you {
   transition: transform 0.6s cubic-bezier(0.5, 0, 0.2, 1);
+  filter: drop-shadow(0 1px 2px rgb(21 19 29 / 0.18));
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll-ladder .sl-bar,

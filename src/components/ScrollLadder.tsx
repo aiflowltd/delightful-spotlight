@@ -342,13 +342,22 @@ function LadderSvg({ step, onSelect }: { step: number; onSelect: (i: number) => 
 
       {/* "You" marker */}
       <g className="sl-you" style={{ transform: `translateY(${markerY}px)` }} aria-hidden="true">
-        <circle cx="190" cy="0" r="13" fill="var(--violet)" stroke="white" strokeWidth="3" />
+        <rect
+          x="171"
+          y="-11"
+          width="38"
+          height="22"
+          rx="11"
+          fill="white"
+          stroke="var(--ink)"
+          strokeWidth="1.5"
+        />
         <text
           x="190"
           y="4"
           textAnchor="middle"
-          fill="white"
-          style={{ fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 600 }}
+          fill="var(--ink)"
+          style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600 }}
         >
           you
         </text>
