@@ -408,7 +408,7 @@ function Footer() {
         <div className="flex flex-wrap items-center gap-6">
           <Link to="/blog" className="hover:text-foreground">Blog</Link>
           <a href="#" className="hover:text-foreground">Methodology brief</a>
-          <a href="#" className="hover:text-foreground">EI program</a>
+          <a href="#" className="hover:text-foreground">NYU Entrepreneurial Institute</a>
           <a href="#" className="hover:text-foreground">Contact</a>
           <span className="hidden sm:block h-4 w-px" style={{ background: "var(--rule)" }} />
           <SocialLinks />
