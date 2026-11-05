@@ -14,28 +14,28 @@ const RAIL = "var(--ink)";
 export function HeroLadder() {
   return (
     <figure className="w-full select-none" aria-label="The Discovery Ladder">
-      <div className="grid grid-cols-[1fr_auto_1fr] gap-x-3 sm:gap-x-8">
+      <div className="grid grid-cols-[1fr_auto_1fr] gap-x-3 sm:gap-x-6">
         {/* Column headers */}
-        <div className="text-right pb-6 sm:pb-8">
+        <div className="text-right pb-4">
           <div
-            className="font-display italic text-2xl sm:text-3xl leading-none"
+            className="font-display italic text-2xl leading-none"
             style={{ color: "#127A9C" }}
           >
             Discover
           </div>
-          <div className="mt-1.5 text-xs sm:text-sm text-muted-foreground">what you learn</div>
+          <div className="mt-1 text-xs text-muted-foreground">what you learn</div>
         </div>
-        <div className="relative w-16 sm:w-36">
+        <div className="relative w-16 sm:w-28">
           <Rails />
         </div>
-        <div className="text-left pb-6 sm:pb-8">
+        <div className="text-left pb-4">
           <div
-            className="font-display italic text-2xl sm:text-3xl leading-none"
+            className="font-display italic text-2xl leading-none"
             style={{ color: "var(--violet)" }}
           >
             Ship
           </div>
-          <div className="mt-1.5 text-xs sm:text-sm text-muted-foreground">
+          <div className="mt-1 text-xs text-muted-foreground">
             what it earns you
           </div>
         </div>
@@ -46,15 +46,15 @@ export function HeroLadder() {
 
         {/* Space between L1 and the ground */}
         <div />
-        <div className="relative h-14 sm:h-20">
+        <div className="relative h-12 sm:h-16">
           <Rails />
         </div>
         <div />
       </div>
 
       {/* L0 ground line */}
-      <div className="mx-auto h-[3px] w-[92%]" style={{ background: RAIL }} />
-      <figcaption className="mt-6 text-center font-mono text-xs sm:text-[0.8rem] text-muted-foreground">
+      <div className="mx-auto h-[3px] w-[85%]" style={{ background: RAIL }} />
+      <figcaption className="mt-5 text-center font-mono text-xs text-muted-foreground">
         L0 · ICP: the ground it stands on
       </figcaption>
     </figure>
@@ -77,22 +77,22 @@ function Row({
   return (
     <>
       <div
-        className="flex items-center justify-end whitespace-nowrap text-right font-display font-medium text-lg sm:text-[2rem] leading-none"
+        className="flex items-center justify-end whitespace-nowrap text-right font-display font-medium text-lg sm:text-[1.5rem] leading-none"
         style={{ color: accent ? "var(--violet)" : "var(--ink)" }}
       >
         {discover}
       </div>
-      <div className="relative flex h-24 sm:h-32 items-center">
+      <div className="relative flex h-20 sm:h-[6.5rem] items-center">
         <Rails />
         <div
-          className="relative mx-[3px] sm:mx-1 flex h-8 sm:h-11 w-full items-center justify-center font-display text-sm sm:text-base text-white"
+          className="relative mx-[3px] sm:mx-1 flex h-8 sm:h-9 w-full items-center justify-center font-display text-sm text-white"
           style={{ background: color }}
         >
           {level}
         </div>
       </div>
       <div
-        className="flex items-center whitespace-nowrap text-left font-display italic text-lg sm:text-[2rem] leading-none"
+        className="flex items-center whitespace-nowrap text-left font-display italic text-lg sm:text-[1.5rem] leading-none"
         style={{ color: accent ? "var(--violet)" : "var(--ink)" }}
       >
         {ship}

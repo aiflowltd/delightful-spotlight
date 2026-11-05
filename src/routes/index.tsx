@@ -44,16 +44,9 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section className="border-b" style={{ borderColor: "var(--rule)" }}>
-      <div className="mx-auto max-w-7xl px-6 pt-20 pb-24 grid lg:grid-cols-[1.05fr_1fr] gap-16 items-center">
+      <div className="mx-auto max-w-6xl px-6 pt-16 pb-20 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-8 items-center">
         <div>
-          <div className="flex items-center gap-3 font-mono text-[0.8rem] sm:text-sm text-ink">
-            <span className="px-2 py-1 text-white" style={{ background: "var(--violet)" }}>
-              v0.9
-            </span>
-            Customer discovery for the age of AI
-          </div>
-
-          <h1 className="mt-10 font-display font-semibold text-[3.75rem] sm:text-[6.5rem] leading-[0.92] tracking-[-0.05em]">
+          <h1 className="font-display font-semibold text-[3.5rem] sm:text-[4.75rem] lg:text-[5.25rem] leading-[0.92] tracking-[-0.05em]">
             Happy ears
             <br />
             waste{" "}
@@ -61,23 +54,23 @@ function Hero() {
               years.
               <span
                 aria-hidden
-                className="absolute left-0 right-0 -bottom-3 sm:-bottom-5 h-[5px] sm:h-[7px]"
+                className="absolute left-0 right-0 -bottom-3 sm:-bottom-4 h-[5px] sm:h-[6px]"
                 style={{ background: "var(--violet)" }}
               />
               <span
                 aria-hidden
-                className="absolute left-0 -bottom-4 sm:-bottom-6 h-3.5 sm:h-5 w-[2px] sm:w-[3px]"
+                className="absolute left-0 -bottom-4 sm:-bottom-5 h-3.5 sm:h-4 w-[2px] sm:w-[3px]"
                 style={{ background: "var(--ink)" }}
               />
               <span
                 aria-hidden
-                className="absolute right-0 -bottom-4 sm:-bottom-6 h-3.5 sm:h-5 w-[2px] sm:w-[3px]"
+                className="absolute right-0 -bottom-4 sm:-bottom-5 h-3.5 sm:h-4 w-[2px] sm:w-[3px]"
                 style={{ background: "var(--ink)" }}
               />
             </span>
           </h1>
 
-          <p className="mt-12 text-lg sm:text-[1.35rem] leading-relaxed text-muted-foreground max-w-xl">
+          <p className="mt-10 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
             Building is cheap now. The expensive mistake is spending a year on something
             nobody wants because you heard what you wanted to hear.{" "}
             <span className="font-medium text-ink">
@@ -86,29 +79,29 @@ function Hero() {
             four levels, each testing a riskier assumption, each shipping a named artifact.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#get"
-              className="inline-flex items-center px-6 py-3.5 text-white text-base sm:text-lg font-medium transition-opacity hover:opacity-90"
+              className="inline-flex items-center px-5 py-3 text-white text-base font-medium transition-opacity hover:opacity-90"
               style={{ background: "var(--violet)" }}
             >
               Get the framework →
             </a>
             <a
               href="#framework"
-              className="inline-flex items-center px-6 py-3.5 border-2 text-base sm:text-lg font-medium text-ink transition-colors hover:bg-[var(--violet-tint)]"
+              className="inline-flex items-center px-5 py-2.5 border-2 text-base font-medium text-ink transition-colors hover:bg-[var(--violet-tint)]"
               style={{ borderColor: "var(--ink)" }}
             >
               Climb it ↓
             </a>
           </div>
 
-          <div className="mt-10 font-mono text-xs sm:text-sm text-muted-foreground">
+          <div className="mt-8 font-mono text-xs text-muted-foreground">
             By Darren Yee · NYU Entrepreneurial Institute
           </div>
         </div>
 
-        <div className="lg:pl-4">
+        <div>
           <HeroLadder />
         </div>
       </div>
