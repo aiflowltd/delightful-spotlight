@@ -3,7 +3,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 import { HeroLadder } from "@/components/HeroLadder";
 import { CanonShelf } from "@/components/CanonShelf";
-import { DrmCards } from "@/components/DrmCards";
+import { EviCards } from "@/components/EviCards";
 import { HardPartDiagram } from "@/components/HardPartDiagram";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScrollLadder } from "@/components/ScrollLadder";
@@ -179,15 +179,8 @@ function FrameworkSection() {
                 earn it.
               </p>
               <p>
-                As you climb, verified evidence gets logged in your{" "}
-                <a
-                  href="#drm"
-                  className="underline decoration-[var(--rule)] underline-offset-4 hover:text-ink"
-                >
-                  DRM
-                </a>
-                , so your AI tools build on what customers actually said and did. Scroll to
-                climb.
+                As you climb, verified evidence gets tracked, so your AI tools build on what
+                customers actually said and did. Scroll to climb.
               </p>
             </div>
           </>
@@ -247,7 +240,7 @@ function StructuralIdeas() {
 
 function DRMSection() {
   return (
-    <section id="drm" className="border-b" style={{ borderColor: "var(--rule)" }}>
+    <section id="evi" className="border-b" style={{ borderColor: "var(--rule)" }}>
       <div className="mx-auto max-w-6xl px-6 py-24 grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-12 items-center">
         <div>
 
@@ -256,9 +249,9 @@ function DRMSection() {
           </h2>
 
           <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
-            The Discovery Records Manager is a ledger of evidence that grows with your business. Two rules: quotes, not summaries,
-            and behavior, not interpretation. Without it, every level claim is founder
-            narration.
+            Meet Evi, our Discovery Records Manager. It keeps a ledger of evidence that grows
+            with your business, with two rules: quotes, not summaries, and behavior, not
+            interpretation. Without it, every level claim is founder narration.
           </p>
 
           <div className="mt-10 grid sm:grid-cols-3 border-2" style={{ borderColor: "var(--ink)" }}>
@@ -292,7 +285,7 @@ function DRMSection() {
           </div>
         </div>
 
-        <DrmCards />
+        <EviCards />
       </div>
     </section>
   );
@@ -354,7 +347,7 @@ function CTASection() {
               A mirror for the discovery you're already doing.
             </h2>
             <p className="mt-5 max-w-xl text-lg opacity-85">
-              Be first to try the Discovery Ladder and the DRM. Join the waitlist and
+              Be first to try the Discovery Ladder and Evi. Join the waitlist and
               we'll let you know as soon as it opens.
             </p>
           </div>

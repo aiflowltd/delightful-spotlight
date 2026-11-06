@@ -129,7 +129,7 @@ function AboutPage() {
               Be first to try it.
             </h2>
             <p className="mt-5 max-w-xl text-lg opacity-85">
-              Join the waitlist for early access to the Discovery Ladder and the DRM.
+              Join the waitlist for early access to the Discovery Ladder and Evi.
             </p>
           </div>
           <WaitlistForm />

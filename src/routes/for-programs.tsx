@@ -78,7 +78,7 @@ const howItWorks = [
   {
     step: "01",
     title: "Teams log their interviews",
-    body: "Founders capture each customer conversation in the Discovery Records Manager — quotes and behavior, not summaries.",
+    body: "Founders capture each customer conversation in Evi — quotes and behavior, not summaries.",
   },
   {
     step: "02",
