@@ -251,8 +251,8 @@ function ArticlePage() {
             src={`${IMG}/founder-view.webp`}
             alt="Founder’s view in Evi: a sample scored interview with line-by-line feedback."
             caption="Founder’s View: Sample Scored Interview"
-            width={1654}
-            height={951}
+            width={1672}
+            height={941}
           />
           <p>
             For founders, it’s a fast track to mastering customer discovery and gaining insight into
@@ -310,8 +310,8 @@ function ArticlePage() {
             src={`${IMG}/cohort-view.webp`}
             alt="Cohort view in Evi for instructors and accelerator managers: a dashboard across every team."
             caption="Cohort View for Instructors and Accelerator Managers"
-            width={1443}
-            height={1090}
+            width={1672}
+            height={941}
           />
 
           <H2>Early results</H2>
