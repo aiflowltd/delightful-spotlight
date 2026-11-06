@@ -168,8 +168,7 @@ function ArticlePage() {
       </article>
 
       <footer className="border-t" style={{ borderColor: "var(--rule)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-between text-sm text-muted-foreground">
-          <div>© {new Date().getFullYear()} The Discovery Ladder. All rights reserved.</div>
+        <div className="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row gap-6 md:items-center md:justify-end text-sm text-muted-foreground">
           <div className="flex flex-wrap items-center gap-6">
             <Link to="/" className="hover:text-foreground">
               Home
