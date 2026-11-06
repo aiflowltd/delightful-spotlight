@@ -1,11 +1,11 @@
 /**
- * Illustrative interview records, styled after the DRM app's interview report:
+ * Illustrative interview records, styled after Evi's interview report:
  * Pain Scale (5 Hair on Fire → 1 Not a Problem) and Signal Quality (5 Trusted → 1 Unusable).
  */
 
 type Tone = "rose" | "green" | "amber";
 
-interface DrmRecord {
+interface EviRecord {
   id: string;
   segment: string;
   quote: string;
@@ -15,7 +15,7 @@ interface DrmRecord {
   flag?: string;
 }
 
-const records: DrmRecord[] = [
+const records: EviRecord[] = [
   {
     id: "#14",
     segment: "Ops lead, logistics",
@@ -57,9 +57,9 @@ const placement = [
   "lg:absolute lg:top-[21rem] lg:left-10 lg:-rotate-1 lg:z-30",
 ];
 
-export function DrmCards() {
+export function EviCards() {
   return (
-    <div className="relative flex flex-col gap-4 lg:block lg:h-[36rem]" aria-label="Example DRM interview records">
+    <div className="relative flex flex-col gap-4 lg:block lg:h-[36rem]" aria-label="Example Evi interview records">
       {records.map((r, i) => (
         <RecordCard key={r.id} r={r} className={placement[i]} />
       ))}
@@ -67,7 +67,7 @@ export function DrmCards() {
   );
 }
 
-function RecordCard({ r, className = "" }: { r: DrmRecord; className?: string }) {
+function RecordCard({ r, className = "" }: { r: EviRecord; className?: string }) {
   const tone = tones[r.pain.tone];
   return (
     <article
