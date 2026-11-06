@@ -63,6 +63,8 @@ function Figure({
   width,
   height,
   narrow,
+  wide,
+  borderless,
 }: {
   src: string;
   alt: string;
@@ -70,9 +72,11 @@ function Figure({
   width: number;
   height: number;
   narrow?: boolean;
+  wide?: boolean;
+  borderless?: boolean;
 }) {
   return (
-    <figure className="!my-10">
+    <figure className={`!my-10 ${wide ? "md:-mx-12 lg:-mx-[11rem]" : ""}`}>
       {caption && (
         <figcaption className="mb-3 font-display italic text-lg text-foreground">
           {caption}
@@ -84,7 +88,7 @@ function Figure({
         width={width}
         height={height}
         loading="lazy"
-        className={`w-full h-auto rounded-sm border ${narrow ? "max-w-[30rem] mx-auto" : ""}`}
+        className={`w-full h-auto rounded-sm ${borderless ? "" : "border"} ${narrow ? "max-w-[39rem] mx-auto" : ""}`}
         style={{ borderColor: "var(--rule)" }}
       />
     </figure>
@@ -204,7 +208,7 @@ function ArticlePage() {
             src={`${IMG}/evi-pipeline.png`}
             alt="Every conversation becomes scored evidence: Interview (recorded) → Transcript (logged verbatim) → Scored (interview + pain) → Feedback (same day, with lines) → Dashboard (team and coaches). Evi scores and verifies. It writes nothing for the team."
             width={1344}
-            height={400}
+            height={331}
           />
           <p>
             Teams upload interview transcripts (not summaries!). Evi scores each one against two
@@ -213,13 +217,6 @@ function ArticlePage() {
             on?). Our rubrics hold years of coaching judgment in detailed criteria, and the model
             applies that judgment consistently to every transcript.
           </p>
-          <Figure
-            src={`${IMG}/evidence-quadrant.png`}
-            alt="Measured quality of evidence: Interview Score (can you trust the data?) against Pain Score (what does it say?). High pain, poor interview: Selling, not listening — discard and re-interview. High pain, clean interview: Build from this — keep gathering. Low pain, poor interview: Stop — fix the interview first. Low pain, clean interview: Pivot — honest null."
-            width={899}
-            height={671}
-            narrow
-          />
           <p>
             For years we’ve told students to{" "}
             <strong className="text-foreground">
@@ -242,6 +239,13 @@ function ArticlePage() {
             Read together, the interview score and the pain score sort every interview into one of
             four places: build on it, coach the technique, find a bigger problem, or move on.
           </p>
+          <Figure
+            src={`${IMG}/evidence-quadrant.png`}
+            alt="Measured quality of evidence: Interview Score (can you trust the data?) against Pain Score (what does it say?). High pain, poor interview: Selling, not listening — discard and re-interview. High pain, clean interview: Build from this — keep gathering. Low pain, poor interview: Stop — fix the interview first. Low pain, clean interview: Pivot — honest null."
+            width={899}
+            height={671}
+            borderless
+          />
           <p>
             The AI’s role is narrow. It doesn’t make decisions for the team, and the evidence is
             always a real customer’s words. It reads, scores, and verifies (something LLMs are very
@@ -253,6 +257,7 @@ function ArticlePage() {
             caption="Founder’s View: Sample Scored Interview"
             width={1672}
             height={941}
+            wide
           />
           <p>
             For founders, it’s a fast track to mastering customer discovery and gaining insight into
@@ -312,6 +317,7 @@ function ArticlePage() {
             caption="Cohort View for Instructors and Accelerator Managers"
             width={1672}
             height={941}
+            wide
           />
 
           <H2>Early results</H2>
