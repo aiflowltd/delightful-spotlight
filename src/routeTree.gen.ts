@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ForProgramsRouteImport } from './routes/for-programs'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogIntroducingEviRouteImport } from './routes/blog.introducing-evi'
 import { Route as BlogTheDiscoveryLadderRouteImport } from './routes/blog.the-discovery-ladder'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIntroducingEviRoute = BlogIntroducingEviRouteImport.update({
+  id: '/blog/introducing-evi',
+  path: '/blog/introducing-evi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogTheDiscoveryLadderRoute = BlogTheDiscoveryLadderRouteImport.update({
   id: '/blog/the-discovery-ladder',
   path: '/blog/the-discovery-ladder',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/for-programs': typeof ForProgramsRoute
+  '/blog/introducing-evi': typeof BlogIntroducingEviRoute
   '/blog/the-discovery-ladder': typeof BlogTheDiscoveryLadderRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/for-programs': typeof ForProgramsRoute
+  '/blog/introducing-evi': typeof BlogIntroducingEviRoute
   '/blog/the-discovery-ladder': typeof BlogTheDiscoveryLadderRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -60,20 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/for-programs': typeof ForProgramsRoute
+  '/blog/introducing-evi': typeof BlogIntroducingEviRoute
   '/blog/the-discovery-ladder': typeof BlogTheDiscoveryLadderRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/for-programs' | '/blog/the-discovery-ladder' | '/blog/'
+    | '/'
+    | '/about'
+    | '/for-programs'
+    | '/blog/introducing-evi'
+    | '/blog/the-discovery-ladder'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/for-programs' | '/blog/the-discovery-ladder' | '/blog'
+  to:
+    | '/'
+    | '/about'
+    | '/for-programs'
+    | '/blog/introducing-evi'
+    | '/blog/the-discovery-ladder'
+    | '/blog'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/for-programs'
+    | '/blog/introducing-evi'
     | '/blog/the-discovery-ladder'
     | '/blog/'
   fileRoutesById: FileRoutesById
@@ -82,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ForProgramsRoute: typeof ForProgramsRoute
+  BlogIntroducingEviRoute: typeof BlogIntroducingEviRoute
   BlogTheDiscoveryLadderRoute: typeof BlogTheDiscoveryLadderRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
@@ -116,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/introducing-evi': {
+      id: '/blog/introducing-evi'
+      path: '/blog/introducing-evi'
+      fullPath: '/blog/introducing-evi'
+      preLoaderRoute: typeof BlogIntroducingEviRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/the-discovery-ladder': {
       id: '/blog/the-discovery-ladder'
       path: '/blog/the-discovery-ladder'
@@ -130,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ForProgramsRoute: ForProgramsRoute,
+  BlogIntroducingEviRoute: BlogIntroducingEviRoute,
   BlogTheDiscoveryLadderRoute: BlogTheDiscoveryLadderRoute,
   BlogIndexRoute: BlogIndexRoute,
 }

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 import { discoveryLadderArticle as article } from "@/content/discovery-ladder-article";
+import { introducingEviArticle as evi } from "@/content/introducing-evi-article";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -118,6 +119,60 @@ function FeaturedArticle() {
   );
 }
 
+function EviArticleCard() {
+  return (
+    <Link
+      to="/blog/introducing-evi"
+      className="group grid md:grid-cols-[2fr_3fr] border rounded-sm overflow-hidden transition-colors hover:bg-[var(--violet-tint)]"
+      style={{ borderColor: "var(--rule)" }}
+    >
+      <div
+        className="p-8 sm:p-10 flex flex-col justify-center text-white"
+        style={{ background: "var(--violet)" }}
+      >
+        <div className="grid grid-cols-2 gap-px" style={{ background: "rgba(255,255,255,0.25)" }}>
+          {evi.quadrants.map((q) => (
+            <div key={q.name} className="p-3 sm:p-4" style={{ background: "var(--violet)" }}>
+              <div className="font-display text-base sm:text-lg leading-tight">{q.name}</div>
+              <div className="mt-1 text-xs opacity-70">{q.note}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex justify-between text-[0.65rem] uppercase tracking-[0.14em] opacity-70">
+          <span>Interview score →</span>
+          <span>Pain score ↑</span>
+        </div>
+      </div>
+
+      <div className="p-8 sm:p-10 flex flex-col">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          <span>{evi.date}</span>
+          <span>{evi.readingTime}</span>
+        </div>
+
+        <h2 className="mt-6 font-display text-3xl sm:text-[2.6rem] leading-[1.08] tracking-tight group-hover:text-[var(--violet)] transition-colors">
+          {evi.title}
+        </h2>
+        <p className="mt-3 text-lg text-muted-foreground">{evi.subtitle}</p>
+
+        <p className="mt-6 text-[1.02rem] leading-relaxed text-ink max-w-xl flex-1">
+          {evi.excerpt}
+        </p>
+
+        <div className="mt-8 flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">By {evi.author}</span>
+          <span
+            className="font-medium inline-flex items-center gap-1.5"
+            style={{ color: "var(--violet)" }}
+          >
+            Read the post →
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 function BlogPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -129,10 +184,10 @@ function BlogPage() {
             Notes from the new bottleneck.
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground max-w-2xl">
-            Essays on customer discovery, founder judgment, and building in the age of AI. Published
-            on Substack.
+            Essays on customer discovery, founder judgment, and building in the age of AI.
           </p>
-          <div className="mt-10">
+          <div className="mt-10 space-y-8">
+            <EviArticleCard />
             <FeaturedArticle />
           </div>
         </div>
