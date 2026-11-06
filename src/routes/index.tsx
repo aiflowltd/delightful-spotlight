@@ -179,15 +179,8 @@ function FrameworkSection() {
                 earn it.
               </p>
               <p>
-                As you climb, verified evidence gets logged in your{" "}
-                <a
-                  href="#evi"
-                  className="underline decoration-[var(--rule)] underline-offset-4 hover:text-ink"
-                >
-                  Evi
-                </a>
-                , so your AI tools build on what customers actually said and did. Scroll to
-                climb.
+                As you climb, verified evidence gets tracked, so your AI tools build on what
+                customers actually said and did. Scroll to climb.
               </p>
             </div>
           </>
@@ -256,9 +249,9 @@ function DRMSection() {
           </h2>
 
           <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
-            Evi is a Discovery Records Manager: a ledger of evidence that grows with your business. Two rules: quotes, not summaries,
-            and behavior, not interpretation. Without it, every level claim is founder
-            narration.
+            Meet Evi, our Discovery Records Manager. It keeps a ledger of evidence that grows
+            with your business, with two rules: quotes, not summaries, and behavior, not
+            interpretation. Without it, every level claim is founder narration.
           </p>
 
           <div className="mt-10 grid sm:grid-cols-3 border-2" style={{ borderColor: "var(--ink)" }}>
