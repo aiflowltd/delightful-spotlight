@@ -3,6 +3,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SocialLinks } from "@/components/SocialLinks";
 import { discoveryLadderArticle as article } from "@/content/discovery-ladder-article";
 import { introducingEviArticle as evi } from "@/content/introducing-evi-article";
+import { theSlideArticle as slide } from "@/content/the-slide-article";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -119,6 +120,79 @@ function FeaturedArticle() {
   );
 }
 
+// Colour bars for the Pain Scale tiers, top tier first, as on the dashboard.
+const tierBars = [
+  "var(--red)",
+  "var(--amber)",
+  "var(--teal)",
+  "rgba(255,255,255,0.55)",
+  "rgba(255,255,255,0.25)",
+];
+
+function SlideArticleCard() {
+  return (
+    <Link
+      to="/blog/the-slide"
+      className="group grid md:grid-cols-[2fr_3fr] border rounded-sm overflow-hidden transition-colors hover:bg-[var(--violet-tint)]"
+      style={{ borderColor: "var(--rule)" }}
+    >
+      <div
+        className="p-8 sm:p-10 flex flex-col justify-center text-white"
+        style={{ background: "var(--violet)" }}
+      >
+        <div className="text-[0.65rem] uppercase tracking-[0.14em] opacity-70">Pain scale</div>
+        <ol className="mt-3 space-y-2">
+          {slide.tiers.map((tier, i) => (
+            <li
+              key={tier}
+              className="pl-3 border-l-4 font-display text-lg sm:text-xl leading-tight"
+              style={{ borderColor: tierBars[i] }}
+            >
+              {tier}
+            </li>
+          ))}
+        </ol>
+        <div className="mt-5 flex items-center justify-between text-[0.65rem] uppercase tracking-[0.14em] opacity-70">
+          <span>Interview score</span>
+          <span className="inline-flex items-center gap-1.5">
+            <span
+              className="inline-block h-2 w-2 rounded-full"
+              style={{ background: "var(--amber)" }}
+              aria-hidden="true"
+            />
+            Yellow
+          </span>
+        </div>
+      </div>
+
+      <div className="p-8 sm:p-10 flex flex-col">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          <span>{slide.date}</span>
+          <span>{slide.readingTime}</span>
+        </div>
+
+        <h2 className="mt-6 font-display text-3xl sm:text-[2.4rem] leading-[1.08] tracking-tight group-hover:text-[var(--violet)] transition-colors [text-wrap:balance]">
+          {slide.title}
+        </h2>
+
+        <p className="mt-6 text-[1.02rem] leading-relaxed text-ink max-w-xl flex-1">
+          {slide.excerpt}
+        </p>
+
+        <div className="mt-8 flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">By {slide.author}</span>
+          <span
+            className="font-medium inline-flex items-center gap-1.5"
+            style={{ color: "var(--violet)" }}
+          >
+            Read the post →
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 function EviArticleCard() {
   return (
     <Link
@@ -187,6 +261,7 @@ function BlogPage() {
             Essays on customer discovery, founder judgment, and building in the age of AI.
           </p>
           <div className="mt-10 space-y-8">
+            <SlideArticleCard />
             <EviArticleCard />
             <FeaturedArticle />
           </div>
